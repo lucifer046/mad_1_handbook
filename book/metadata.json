@@ -1,0 +1,75 @@
+[
+  {
+    "category": "Architecture & Fundamentals",
+    "topics": [
+      { "name": "Overview", "description": "Introduction to MAD.", "complexities": { "best": "N/A", "avg": "N/A", "worst": "N/A", "space": "N/A" } },
+      { "name": "Apps Arch", "description": "Apps and Architectures", "complexities": { "best": "N/A", "avg": "N/A", "worst": "N/A", "space": "N/A" } }
+    ]
+  },
+  {
+    "category": "Web Infrastructure",
+    "topics": [
+      { "name": "Web Fundamentals", "description": "Core protocols and DNS.", "complexities": { "best": "N/A", "avg": "N/A", "worst": "N/A", "space": "N/A" } },
+      { "name": "Info Rep", "description": "Information representation.", "complexities": { "best": "N/A", "avg": "N/A", "worst": "N/A", "space": "N/A" } }
+    ]
+  },
+  {
+    "category": "Frontend Core",
+    "topics": [
+      { "name": "HTML", "description": "HTML & DOM.", "complexities": { "best": "N/A", "avg": "N/A", "worst": "N/A", "space": "N/A" } },
+      { "name": "CSS", "description": "CSS Design System.", "complexities": { "best": "N/A", "avg": "N/A", "worst": "N/A", "space": "N/A" } }
+    ]
+  },
+  {
+    "category": "Advanced Frontend",
+    "topics": [
+      { "name": "UI Design", "description": "Accessibility & UI Design.", "complexities": { "best": "N/A", "avg": "N/A", "worst": "N/A", "space": "N/A" } },
+      { "name": "Frontend", "description": "Frontend Mechanisms.", "complexities": { "best": "N/A", "avg": "N/A", "worst": "N/A", "space": "N/A" } },
+      { "name": "Beyond HTML", "description": "Modern frontend trends.", "complexities": { "best": "N/A", "avg": "N/A", "worst": "N/A", "space": "N/A" } }
+    ]
+  },
+  {
+    "category": "Backend Development",
+    "topics": [
+      { "name": "Flask", "description": "Flask & Routing.", "complexities": { "best": "N/A", "avg": "N/A", "worst": "N/A", "space": "N/A" } },
+      { "name": "API", "description": "API Design & REST.", "complexities": { "best": "N/A", "avg": "N/A", "worst": "N/A", "space": "N/A" } }
+    ]
+  },
+  {
+    "category": "Data & Backend Principles",
+    "topics": [
+      { "name": "SQL", "description": "SQL & Databases.", "complexities": { "best": "N/A", "avg": "N/A", "worst": "N/A", "space": "N/A" } },
+      { "name": "Storage", "description": "Persistent Storage.", "complexities": { "best": "N/A", "avg": "N/A", "worst": "N/A", "space": "N/A" } },
+      { "name": "MVC", "description": "MVC Architecture.", "complexities": { "best": "N/A", "avg": "N/A", "worst": "N/A", "space": "N/A" } },
+      { "name": "Backend", "description": "Backend Systems.", "complexities": { "best": "N/A", "avg": "N/A", "worst": "N/A", "space": "N/A" } }
+    ]
+  },
+  {
+    "category": "Security & Operations",
+    "topics": [
+      { "name": "Security", "description": "Security & Auth.", "complexities": { "best": "N/A", "avg": "N/A", "worst": "N/A", "space": "N/A" } }
+    ]
+  },
+  {
+    "category": "Lifecycle & DevOps",
+    "topics": [
+      { "name": "Testing", "description": "Software Testing.", "complexities": { "best": "N/A", "avg": "N/A", "worst": "N/A", "space": "N/A" } },
+      { "name": "Deployment", "description": "Deployment & DevOps.", "complexities": { "best": "N/A", "avg": "N/A", "worst": "N/A", "space": "N/A" } }
+    ]
+  },
+  {
+    "category": "Practical Experiments",
+    "topics": [
+      { "name": "Exp 01: Basics", "description": "HTML & CSS Basics", "id": "exp01" },
+      { "name": "Exp 02: Templates", "description": "Jinja2 Templates", "id": "exp02" },
+      { "name": "Exp 03: Flask App", "description": "Simple Flask Setup", "id": "exp03" },
+      { "name": "Exp 04: SQLite DB", "description": "Raw SQLite File", "id": "exp04" },
+      { "name": "Exp 05: SQLAlchemy", "description": "ORM Basics", "id": "exp05" },
+      { "name": "Exp 06: Flask-SQLAlchemy", "description": "Flask ORM Integration", "id": "exp06" },
+      { "name": "Exp 07: Fullstack", "description": "Flask Fullstack Setup", "id": "exp07" },
+      { "name": "Exp 08: Restful", "description": "Flask-RESTful API", "id": "exp08" },
+      { "name": "Exp 09: Logging", "description": "Flask App Logging", "id": "exp09" },
+      { "name": "Exp 10: FTS", "description": "Full-Text Search", "id": "exp10" }
+    ]
+  }
+]

@@ -1,0 +1,23 @@
+/* Table base styles */
+table {
+    border: 1px solid black; 
+    border-collapse: collapse; /* Ensure single borders */
+    text-align: center;	
+}
+
+/* Cell borders for data and headers */
+td, th {
+    border: 1px solid black;
+}
+
+/* Highlight header background */
+thead {
+    background-color: lightgreen;
+}
+
+/* Zebra-striping for readability */
+tr:nth-child(even){
+    background-color: lightgray;
+}
+
+

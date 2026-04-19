@@ -1,0 +1,71 @@
+{
+  "title": "Modern Application Development (MAD)",
+  "roadmap": [
+    {
+      "category": "Architecture & Fundamentals",
+      "folder": "01_Basics",
+      "topics": [
+        { "name": "Overview", "id": "00_overview" },
+        { "name": "Apps and Architectures", "id": "01_apps_arch" }
+      ]
+    },
+    {
+      "category": "Web Infrastructure",
+      "folder": "02_Web_Fundamentals",
+      "topics": [
+        { "name": "Web Fundamentals", "id": "02_web_fundamentals" },
+        { "name": "Information Representation", "id": "04_info_rep" }
+      ]
+    },
+    {
+      "category": "Frontend Core",
+      "folder": "03_HTML_CSS",
+      "topics": [
+        { "name": "HTML & DOM", "id": "03_html" },
+        { "name": "CSS Design System", "id": "05_css" }
+      ]
+    },
+    {
+      "category": "Data & Backend Principles",
+      "folder": "04_Data_and_MVC",
+      "topics": [
+        { "name": "MVC Architecture", "id": "06_mvc" },
+        { "name": "Persistent Storage", "id": "07_storage" },
+        { "name": "SQL & Databases", "id": "08_sql" },
+        { "name": "Backend Systems", "id": "11_backend" }
+      ]
+    },
+    {
+      "category": "Backend Development",
+      "folder": "05_Backend_Flask",
+      "topics": [
+        { "name": "Flask & Routing", "id": "09_flask" },
+        { "name": "API Design & REST", "id": "10_api" }
+      ]
+    },
+    {
+      "category": "Advanced Frontend",
+      "folder": "07_Frontend_Advanced",
+      "topics": [
+        { "name": "Frontend Mechanisms", "id": "13_frontend" },
+        { "name": "Accessibility & UI Design", "id": "14_ui_design" },
+        { "name": "Beyond HTML", "id": "17_beyond_html" }
+      ]
+    },
+    {
+      "category": "Security & Operations",
+      "folder": "06_APIs_Security",
+      "topics": [
+        { "name": "Security & Auth", "id": "12_security" }
+      ]
+    },
+    {
+      "category": "Lifecycle & DevOps",
+      "folder": "08_Testing_DevOps",
+      "topics": [
+        { "name": "Software Testing", "id": "15_testing" },
+        { "name": "Deployment & DevOps", "id": "16_deployment" }
+      ]
+    }
+  ]
+}

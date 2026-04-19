@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MAD-I Handbook</title>
+  <link rel="icon" type="image/png" href="book/logo.png">
+  
+  <!-- Lock Color Scheme to prevent Dark Mode Extensions from altering the UI -->
+  <meta name="color-scheme" content="light">
+  <meta name="darkreader-lock">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Prism CSS (Dark theme for high contrast) -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+  
+  <!-- Custom Aesthetics -->
+  <link rel="stylesheet" href="book/style.css">
+
+  <!-- MathJax for Beautiful Formulas -->
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']], processEscapes: true },
+      options: { ignoreHtmlClass: 'code-pane', processHtmlClass: 'theory-pane' }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+  <!-- Top Bar Layout (Focus Mode Activation) -->
+  <header>
+    <div class="header-left">
+      <button class="menu-toggle" onclick="toggleMenu()" aria-label="Open Menu">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+        <span>Topics</span>
+      </button>
+      <div class="brand">
+        <img src="book/logo.png" alt="MAD-I Logo" class="header-logo">
+        <div class="brand-text">
+          <span class="brand-title">MAD-I</span>
+          <span class="brand-subtitle">Modern Web App Development</span>
+        </div>
+      </div>
+    </div>
+    <div class="header-right" style="display:flex; align-items:center; gap:0.75rem;">
+      <button class="cmd-palette-trigger" onclick="openCmdPalette()" title="Search topics (Ctrl+K)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Search
+        <kbd class="cmd-kbd">Ctrl K</kbd>
+      </button>
+      <div class="view-switcher mobile-only">
+        <button id="show-theory" class="view-btn active" onclick="switchView('theory')">Theory</button>
+        <button id="show-code" class="view-btn" onclick="switchView('code')">Code</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Fullscreen Modal Navigation -->
+  <div id="sidebar-overlay" class="sidebar-overlay">
+    <div class="menu-container">
+      <button class="close-menu" onclick="toggleMenu()"><i data-lucide="x" width="32" height="32"></i></button>
+      <div id="menu-content"></div>
+    </div>
+  </div>
+
+  <!-- Command Palette -->
+  <div id="cmd-palette-overlay" class="cmd-palette-overlay" onclick="handlePaletteOverlayClick(event)">
+    <div class="cmd-palette-box">
+      <div class="cmd-palette-input-wrap">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input id="cmd-palette-input" class="cmd-palette-input" type="text" placeholder="Search topics..." autocomplete="off" spellcheck="false">
+        <kbd class="cmd-kbd">ESC</kbd>
+      </div>
+      <div id="cmd-palette-results" class="cmd-palette-results"></div>
+    </div>
+  </div>
+
+  <!-- Global Toast -->
+  <div id="app-toast" class="app-toast"></div>
+
+  <!-- Dual-Pane Immersive Layout -->
+  <main id="book-layout" class="book-layout">
+    <div class="theory-pane"><div id="theory-content-area"></div></div>
+    
+    <div class="code-pane">
+      <div class="code-box-wrapper">
+        <div class="code-header">
+          <div class="code-badge"><div class="status-dot"></div>implementation code</div>
+          <div class="code-actions">
+            <button class="code-btn" id="zoom-out-btn" aria-label="Zoom Out">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            </button>
+            <span id="zoom-level" style="font-family: 'Fira Code', monospace; font-size: 0.75rem; color: var(--text-muted); min-width: 40px; text-align: center;">100%</span>
+            <button class="code-btn" id="zoom-in-btn" aria-label="Zoom In">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            </button>
+            <button class="code-btn" id="copy-code-btn" aria-label="Copy Code">
+              <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <svg class="icon-check" style="display:none; color: var(--accent-success);" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </button>
+          </div>
+        </div>
+        <div class="code-box">
+          <pre id="code-container" class="language-python"><code></code></pre>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <div class="footer-content">
+      <span>Copyright © 2026 MAD-I HANDBOOK</span>
+    </div>
+  </footer>
+
+  <!-- Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.0/lucide.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ 
+      startOnLoad: false, 
+      theme: 'base',
+      themeVariables: {
+        primaryColor: '#1e293b',
+        primaryTextColor: '#ffffff',
+        primaryBorderColor: '#0f172a',
+        lineColor: '#2563eb', /* Vibrant blue for arrows */
+        textColor: '#1e293b', /* Dark text for edge labels */
+        edgeLabelBackground: '#ffffff', /* White background for labels */
+        mainBkg: '#1e293b',
+        nodeBorder: '#0f172a',
+        clusterBkg: '#f8fafc',
+        clusterBorder: '#cbd5e1',
+        labelBoxBkgColor: '#1e293b',
+        labelBoxBorderColor: '#0f172a',
+        labelTextColor: '#ffffff', /* Text inside nodes */
+        arrowheadColor: '#2563eb', /* Match line color */
+        loopTextColor: '#1e293b',
+        fontFamily: 'Inter, sans-serif',
+        fontSize: '14px'
+      },
+      flowchart: {
+        htmlLabels: true,
+        curve: 'basis',
+        useMaxWidth: true,
+        padding: 15
+      },
+      sequence: {
+        actorMargin: 50,
+        showSequenceNumbers: true,
+        actorFontSize: 14,
+        messageFontSize: 13,
+        boxMargin: 10,
+        boxTextMargin: 5,
+        noteMargin: 10,
+        messageMargin: 35,
+        mirrorActors: true,
+        addMessagesStyle: true,
+        rightAngles: false,
+        showSequenceNumbers: false
+      }
+    });
+  </script>
+
+  <!-- Data Payload (Generated by build_book_data.py) -->
+  <script src="book/book_data.js"></script>
+
+  <!-- Application Logic -->
+  <script src="book/app.js"></script>
+</body>
+</html>
