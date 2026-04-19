@@ -487,13 +487,17 @@ header {
 .theory-content pre {
     background: #f8fafc !important;
     padding: 2rem !important;
-    padding-bottom: 2.5rem !important; /* Extra bottom padding to keep scrollbar away from corners */
+    padding-bottom: 2.5rem !important;
     border-radius: 1.5rem !important;
     border: 1px solid var(--border-light) !important;
     margin: 2.5rem 0 !important;
     box-shadow: 0 4px 20px rgba(0,0,0,0.03) !important;
     overflow-x: auto !important;
+    overflow-y: visible !important;
     position: relative;
+    max-width: 100% !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
 }
 
 /* Premium Scrollbar for Theory Code Blocks */
@@ -523,7 +527,11 @@ header {
     font-family: 'Fira Code', monospace !important;
     font-size: 0.95rem !important;
     line-height: 1.7 !important;
-    color: #24292e !important; /* High contrast dark text */
+    color: #24292e !important;
+    white-space: pre !important;    /* CRITICAL: prevents line-wrapping in ASCII diagrams */
+    display: block !important;      /* ensures the code element respects the pre's scroll */
+    width: fit-content !important;  /* lets content expand naturally, triggering horizontal scroll */
+    min-width: 100% !important;     /* fallback: still fills the container when content is short */
 }
 
 /* Prism Light-Mode Overrides for Theory Section */

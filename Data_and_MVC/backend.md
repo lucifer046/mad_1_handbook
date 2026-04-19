@@ -15,42 +15,42 @@ The same principle applies to computer storage. Different storage types have wil
 ## The Computer Memory Hierarchy
 
 ```
-SPEED ↑ (nanoseconds → days)                        COST PER GB ↑
-SIZE  ↓ (bytes → petabytes)                          SIZE ↑ (bigger = cheaper)
+SPEED ↑ (nanoseconds → days) COST PER GB ↑
+SIZE ↓ (bytes → petabytes) SIZE ↑ (bigger = cheaper)
 
-  ┌────────────────────────────────────────────────────────────────┐
-  │ CPU REGISTERS                                                  │
-  │ Speed: < 1 nanosecond  │ Size: ~1KB  │ Like: "in your hands"  │
-  │ Your CPU has ~32 tiny slots that hold the values it's using    │
-  │ right now (e.g., two numbers being added).                     │
-  ├────────────────────────────────────────────────────────────────┤
-  │ CPU CACHE (SRAM)                                               │
-  │ Speed: ~10 nanoseconds │ Size: 1-64MB│ Like: "your desk"      │
-  │ Stores frequently used data from RAM so the CPU doesn't        │
-  │ have to wait for RAM every time.                               │
-  ├────────────────────────────────────────────────────────────────┤
-  │ RAM (DRAM)                                                     │
-  │ Speed: ~100 nanoseconds│ Size: 4-64GB│ Like: "a bookshelf"    │
-  │ Your program's "working area". ALL variables live here.        │
-  │ **Cleared when power is off.**                                 │
-  ├────────────────────────────────────────────────────────────────┤
-  │ SSD (Solid State Drive)                                        │
-  │ Speed: ~100 microseconds│Size: 256GB-4TB│Like: "filing cabinet"│
-  │ Permanent storage. Where your files and databases live.        │
-  │ 1000x slower than RAM.                                         │
-  ├────────────────────────────────────────────────────────────────┤
-  │ HDD (Hard Disk Drive)                                          │
-  │ Speed: ~10 milliseconds │Size: 1-20TB │ Like: "back room"     │
-  │ Older, slower, but very cheap per GB. Used for bulk storage.   │
-  ├────────────────────────────────────────────────────────────────┤
-  │ COLD STORAGE (Cloud Archive)                                   │
-  │ Speed: Hours-Days       │Size: Unlimited│Like: "offsite vault" │
-  │ AWS Glacier, Google Archive. Almost free, but very slow.       │
-  │ For data you almost never need (legal archives, backups).      │
-  └────────────────────────────────────────────────────────────────┘
 
-SPEED ↓                                              COST PER GB ↓
-SIZE  ↑                                              SIZE ↓
+   CPU REGISTERS
+   Speed: < 1 nanosecond Size: ~1KB Like: "in your hands"
+   Your CPU has ~32 tiny slots that hold the values it's using
+   right now (e.g., two numbers being added).
+
+   CPU CACHE (SRAM)
+   Speed: ~10 nanoseconds Size: 1-64MB Like: "your desk"
+   Stores frequently used data from RAM so the CPU doesn't
+   have to wait for RAM every time.
+
+   RAM (DRAM)
+   Speed: ~100 nanoseconds Size: 4-64GB Like: "a bookshelf"
+   Your program's "working area". ALL variables live here.
+   **Cleared when power is off.**
+
+   SSD (Solid State Drive)
+   Speed: ~100 microsecondsSize: 256GB-4TBLike: "filing cabinet"
+   Permanent storage. Where your files and databases live.
+   1000x slower than RAM.
+
+   HDD (Hard Disk Drive)
+   Speed: ~10 milliseconds Size: 1-20TB Like: "back room"
+   Older, slower, but very cheap per GB. Used for bulk storage.
+
+   COLD STORAGE (Cloud Archive)
+   Speed: Hours-Days Size: UnlimitedLike: "offsite vault"
+   AWS Glacier, Google Archive. Almost free, but very slow.
+   For data you almost never need (legal archives, backups).
+
+
+SPEED ↓ COST PER GB ↓
+SIZE ↑ SIZE ↓
 ```
 
 ### Summary Table
@@ -78,7 +78,7 @@ When a user visits `/students` on your website, here's what happens:
        |
        ↓ (Is it in RAM/Cache? → Yes → Done in microseconds!)
        ↓ (Not in RAM? → Must hit the database on SSD → Takes milliseconds)
-       ↓ (Is the database on another server? → Network request → Takes hundreds of ms!)
+       ↓ (Database on another server? → Network request → ~hundreds of ms!)
        |
        ↓
   3. Flask sends response back
@@ -95,19 +95,19 @@ Imagine searching for a word in a dictionary **without the alphabetical order**.
 A real dictionary is **sorted alphabetically**, so you can flip to roughly the right page immediately. That's like an **Index**.
 
 ```
-  Without Index:              With Index:
-  
-  Searching for student       Searching for student
-  with id=99 in 100 rows:     with id=99 using an index:
-  
-  Row 1: id=1   ← check       Look up the index: "id=99 → Row 99"
-  Row 2: id=2   ← check       Jump directly to Row 99 ✓
-  Row 3: id=3   ← check
-  ...                         Speed: O(log N) — logarithmic!
-  Row 99: id=99 ✓
-  
-  Speed: O(N) — linear       Like finding in encyclopedia
-  Like reading a book         vs. using the index page
+  Without Index: With Index:
+
+  Searching for student Searching for student
+  with id=99 in 100 rows: with id=99 using an index:
+
+  Row 1: id=1 ← check Look up the index: "id=99 → Row 99"
+  Row 2: id=2 ← check Jump directly to Row 99
+  Row 3: id=3 ← check
+  ... Speed: O(log N) — logarithmic!
+  Row 99: id=99
+
+  Speed: O(N) — linear Like finding in encyclopedia
+  Like reading a book vs. using the index page
   word by word!
 ```
 
@@ -133,7 +133,7 @@ SELECT * FROM Students WHERE name = 'Alice';
 
 ```
   FIRST REQUEST (cache miss):
-  
+
   User visits /top-students
        |
        ↓
@@ -148,10 +148,10 @@ SELECT * FROM Students WHERE name = 'Alice';
        ↓
   Return result to user (total: 500ms)
 
-  ─────────────────────────────────────────
+
 
   SECOND REQUEST (cache hit):
-  
+
   User visits /top-students
        |
        ↓
@@ -169,18 +169,18 @@ _cache = {}
 
 def get_top_students():
     cache_key = "top_students"
-    
+
     # Check if we have a fresh cached result
     if cache_key in _cache:
         data, timestamp = _cache[cache_key]
-        if time.time() - timestamp < 300:  # 300 seconds = 5 minutes
+        if time.time() - timestamp < 300: # 300 seconds = 5 minutes
             print("Cache HIT! Returning cached data.")
             return data
-    
+
     # Cache miss or expired — go to database
     print("Cache MISS. Querying database...")
-    data = fetch_from_database()  # This is slow
-    
+    data = fetch_from_database() # This is slow
+
     # Store in cache with current timestamp
     _cache[cache_key] = (data, time.time())
     return data
@@ -201,11 +201,11 @@ When we talk about how "fast" or "scalable" an algorithm is, we use **Big-O nota
 
 ```
   Imagine we have 1,000,000 students:
-  
-  O(1)      →    1 operation         ← instant
-  O(log N)  →    20 operations       ← instant
-  O(N)      →    1,000,000 ops       ← 1 second
-  O(N²)     →    1,000,000,000,000   ← 11 DAYS!!!
+
+  O(1) → 1 operation ← instant
+  O(log N) → 20 operations ← instant
+  O(N) → 1,000,000 ops ← 1 second
+  O(N²) → 1,000,000,000,000 ← 11 DAYS!!!
 ```
 
 [TIP]

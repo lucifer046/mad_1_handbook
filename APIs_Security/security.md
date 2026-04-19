@@ -2,7 +2,7 @@
 
 ## What is Security?
 
-Think of your website as a **House**. 
+Think of your website as a **House**.
 - **The Users** are guests you want to invite in.
 - **The Hackers** are burglars trying to break in.
 
@@ -12,7 +12,7 @@ Security isn't about one "Magic Lock" — it's about having strong walls, a good
 
 ## The Golden Rule: NEVER TRUST USER INPUT
 
-This is the most important rule in all of programming. 
+This is the most important rule in all of programming.
 
 Anything a user types into a box (username, password, search query) could be a **Trojan Horse** — a gift that hides a trap.
 
@@ -60,14 +60,14 @@ A hacker leaves a comment that contains a `<script>` tag:
 Every innocent person who visits the blog now has their browser **automatically send their secret login cookie** to the hacker!
 
 **The Fix: Escaping**
-Modern tools (like Jinja2 in Flask) automatically "escape" text. They turn `<` into `&lt;`. 
+Modern tools (like Jinja2 in Flask) automatically "escape" text. They turn `<` into `&lt;`.
 The browser then displays the code as text instead of running it.
 
 ---
 
 ## 3. CSRF: Cross-Site Request Forgery (The Forged Signature)
 
-Imagine you are logged into your bank. You visit a hacker's website in another tab. 
+Imagine you are logged into your bank. You visit a hacker's website in another tab.
 
 **The Attack:**
 The hacker's site has a hidden form that automatically submits to `bank.com/transfer?to=hacker&amount=1000`.
@@ -82,13 +82,13 @@ The bank gives you a "One-Time Secret Token" for every form. If the form doesn't
 
 When you visit a `http://` site, your data (including passwords) travels across the internet as **plain text**. Anyone between you and the server can "eavesdrop" and read it.
 
-**HTTPS** (The 'S' stands for Secure) creates an **encrypted tunnel**. 
+**HTTPS** (The 'S' stands for Secure) creates an **encrypted tunnel**.
 
 ```
-  HTTP:   Alice → "My Password is 123" → Internet → Server
+  HTTP: Alice → "My Password is 123" → Internet → Server
           (Anyone can see: "My Password is 123")
 
-  HTTPS:  Alice → "AxB7%*!9" → Internet → Server
+  HTTPS: Alice → "AxB7%*!9" → Internet → Server
           (Eavesdroppers only see gibberish. Only the server can decode it.)
 ```
 

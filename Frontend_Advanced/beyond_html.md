@@ -15,11 +15,11 @@ Imagine building a Lego castle. Instead of one giant piece of plastic, you have 
 Modern web development uses **Components**:
 
 ```
-  TRADITIONAL HTML:               COMPONENT-BASED:
-  
-  [ One Giant Page ]              [ Header Component ]  ← Reuse on every page
+  TRADITIONAL HTML: COMPONENT-BASED:
+
+  [ One Giant Page ] [ Header Component ] ← Reuse on every page
                                   [ Sidebar Component ] ← Reuse
-                                  [ Card Component ]    ← Reuse 100 times!
+                                  [ Card Component ] ← Reuse 100 times!
 ```
 
 **Why it's better:**
@@ -46,7 +46,7 @@ Modern tools (like React or Vue) are **Declarative**. You just describe how the 
 
 ## 3. The Virtual DOM
 
-We learned that a "DOM Reflow" (updating the page) is slow. 
+We learned that a "DOM Reflow" (updating the page) is slow.
 
 Modern tools use a **Virtual DOM** — a "Mirror" of the real page kept in memory.
 
@@ -73,7 +73,7 @@ Writing huge CSS files can get messy. Modern trends bring CSS closer to the comp
 
 ## 5. Progressive Web Apps (PWAs)
 
-A PWA is a website that **acts like a mobile app**. 
+A PWA is a website that **acts like a mobile app**.
 - It works offline (using "Service Workers")
 - It can be "installed" on your phone's home screen
 - It can send push notifications

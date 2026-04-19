@@ -12,7 +12,7 @@ def handle_request():
     students = conn.execute("SELECT * FROM students").fetchall()
     html = "<html><body><h1 style='color:red'>Students</h1>"
     for s in students:
-        if s[2] > 40:  # magic number! What is 40?
+        if s[2] > 40: # magic number! What is 40?
             html += f"<p>PASS: {s[1]}</p>"
         else:
             html += f"<p>FAIL: {s[1]}</p>"
@@ -34,16 +34,16 @@ The best way to understand MVC is to think of a restaurant:
 ```
 THE RESTAURANT (Your Web App)
 
-  ╔═══════════════╗   Order    ╔═══════════════╗    ╔═══════════════╗
-  ║   DINING ROOM ║ ---------> ║    WAITER     ║    ║    KITCHEN    ║
-  ║   (VIEW)      ║            ║  (CONTROLLER) ║    ║    (MODEL)    ║
-  ║               ║ <--------- ║               ║    ║               ║
-  ║  The menu,    ║   Food     ║  Takes orders ║ <--║  Cooks food   ║
-  ║  the tables,  ║            ║  Carries food ║ -->║  Manages      ║
-  ║  the decor.   ║            ║  Never cooks  ║    ║  ingredients  ║
-  ║               ║            ║  Never eats   ║    ║  Never serves ║
-  ╚═══════════════╝            ╚═══════════════╝    ╚═══════════════╝
-       User sees                  Connects M & V        Database
+     Order
+     DINING ROOM ---------> WAITER KITCHEN
+     (VIEW) (CONTROLLER) (MODEL)
+                  <---------
+    The menu, Food Takes orders <-- Cooks food
+    the tables, Carries food --> Manages
+    the decor. Never cooks ingredients
+                               Never eats Never serves
+
+       User sees Connects M & V Database
 ```
 
 ### The Strict Rules:
@@ -71,20 +71,20 @@ class StudentModel:
     def __init__(self):
         self.students = [
             {"id": 1, "name": "Alice", "marks": 85},
-            {"id": 2, "name": "Bob",   "marks": 35},
+            {"id": 2, "name": "Bob", "marks": 35},
         ]
-    
+
     def get_all_students(self):
         """Returns the list of all students from the database."""
         return self.students
-    
+
     def get_student_by_id(self, student_id):
         """Finds a specific student. Returns None if not found."""
         for s in self.students:
             if s["id"] == student_id:
                 return s
         return None
-    
+
     def is_passing(self, student_id):
         """Business rule: passing mark is 40."""
         student = self.get_student_by_id(student_id)
@@ -107,7 +107,7 @@ class StudentView:
             html += f"<li>{s['name']} - Marks: {s['marks']}</li>"
         html += "</ul></body></html>"
         return html
-    
+
     def show_pass_fail(self, student_name, is_passing):
         """Displays result for ONE student."""
         status = "✅ PASS" if is_passing else "❌ FAIL"
@@ -131,31 +131,31 @@ class StudentController:
         """
         model = StudentModel()
         view = StudentView()
-        
+
         # Step 1: Get data from Model
         all_students = model.get_all_students()
-        
+
         # Step 2 & 3: Give data to View, return the HTML
         return view.show_student_list(all_students)
-    
+
     def handle_result_request(self, student_id):
         """
         User visits /result/2
         """
         model = StudentModel()
         view = StudentView()
-        
+
         student = model.get_student_by_id(student_id)
         is_passing = model.is_passing(student_id)
-        
+
         return view.show_pass_fail(student["name"], is_passing)
 
 
 # --- Simulate the app running ---
 controller = StudentController()
 print(controller.handle_view_all_request())
-print(controller.handle_result_request(1))  # Alice
-print(controller.handle_result_request(2))  # Bob
+print(controller.handle_result_request(1)) # Alice
+print(controller.handle_result_request(2)) # Bob
 ```
 
 ---
@@ -166,28 +166,28 @@ print(controller.handle_result_request(2))  # Bob
   Browser → "GET /students"
        |
        v
-  ┌─────────────────────────────────────────────────────────────┐
-  │                      CONTROLLER                             │
-  │  1. Receives the request                                    │
-  │  2. Calls model.get_all_students()   ─────────────────┐    │
-  │                                                        │    │
-  │  ┌─────────────────────────────────────────────────┐  │    │
-  │  │ MODEL                                           │  │    │
-  │  │ 3. Fetches data from database                   │  │    │
-  │  │ 4. Returns list of students ←──────────────────┘│  │    │
-  │  └─────────────────────────────────────────────────┘  │    │
-  │                                                        │    │
-  │  5. Passes student list to view.show_student_list() ──┘    │
-  │  ┌─────────────────────────────────────────────────────┐   │
-  │  │ VIEW                                                │   │
-  │  │ 6. Builds HTML from the data                        │   │
-  │  │ 7. Returns finished HTML string ←───────────────────│   │
-  │  └─────────────────────────────────────────────────────┘   │
-  │  8. Returns HTML to the browser                             │
-  └─────────────────────────────────────────────────────────────┘
+
+                        CONTROLLER
+    1. Receives the request
+    2. Calls model.get_all_students()
+
+
+     MODEL
+     3. Fetches data from database
+     4. Returns list of students ←
+
+
+    5. Passes student list to view.show_student_list()
+
+     VIEW
+     6. Builds HTML from the data
+     7. Returns finished HTML string ←
+
+    8. Returns HTML to the browser
+
        |
        v
-  Browser renders the students list on screen ✓
+  Browser renders the students list on screen
 ```
 
 ---

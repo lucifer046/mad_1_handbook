@@ -18,22 +18,22 @@ Flask is called a "**micro**framework" because it's tiny by default — it only 
 Let's build the simplest possible web server:
 
 ```python
-# ── Step 1: Import Flask from the flask library ──────────────────
+# Step 1: Import Flask from the flask library
 from flask import Flask
 
-# ── Step 2: Create the application instance ──────────────────────
+# Step 2: Create the application instance
 # __name__ tells Flask the name of this file (so it can find templates, etc.)
 app = Flask(__name__)
 
-# ── Step 3: Create a ROUTE ──────────────────────────────────────
+# Step 3: Create a ROUTE
 # A route = "when a user visits this URL, run this function"
-@app.route('/')            # The '/' means the homepage (e.g., http://localhost:5000/)
+@app.route('/') # The '/' means the homepage (e.g., http://localhost:5000/)
 def home():
     return "<h1>Hello, World!</h1><p>My first Flask app!</p>"
 
-# ── Step 4: Start the server ──────────────────────────────────────
+# Step 4: Start the server
 if __name__ == '__main__':
-    app.run(debug=True)    # debug=True shows errors nicely during development
+    app.run(debug=True) # debug=True shows errors nicely during development
 ```
 
 **Run it**: Open a terminal and type `python app.py`. Then visit `http://localhost:5000` in your browser.
@@ -45,12 +45,12 @@ if __name__ == '__main__':
 A **route** is the connection between a URL and a Python function.
 
 ```
-  User types URL          Flask finds matching route         Function runs
-  ───────────────         ──────────────────────────         ─────────────
-  /                  →    @app.route('/')              →    home()
-  /about             →    @app.route('/about')         →    about()
-  /students          →    @app.route('/students')      →    list_students()
-  /student/42        →    @app.route('/student/<id>')  →    show_student(id=42)
+  User types URL Flask finds matching route Function runs
+
+  / → @app.route('/') → home()
+  /about → @app.route('/about') → about()
+  /students → @app.route('/students') → list_students()
+  /student/42 → @app.route('/student/<id>') → show_student(id=42)
 ```
 
 ### Dynamic Routes: Capture Parts of the URL
@@ -81,7 +81,7 @@ def login():
     if request.method == 'GET':
         # User is just visiting the page → Show the login form
         return render_template('login.html')
-    
+
     elif request.method == 'POST':
         # User submitted the form → Process the login
         username = request.form.get('username')
@@ -96,28 +96,28 @@ def login():
 Flask is built on **WSGI** (Web Server Gateway Interface). Here's the lifecycle of a request:
 
 ```
-  Your Browser                  Flask (WSGI App)              Your Python Code
-       |                               |                               |
-       | 1. HTTP GET /students         |                               |
-       |──────────────────────────────>|                               |
-       |                               |                               |
-       |                               | 2. Parse the HTTP request     |
-       |                               |   ("Method: GET, Path: /students")
-       |                               |                               |
-       |                               | 3. Find matching route        |
-       |                               |   @app.route('/students')     |
-       |                               |──────────────────────────────>|
-       |                               |                               |
-       |                               |                  4. Run the   |
-       |                               |                     function  |
-       |                               |                     return "" |
-       |                               |<──────────────────────────────|
-       |                               |                               |
-       |                               | 5. Build HTTP response        |
-       |                               |   (Status: 200 OK)            |
-       |<──────────────────────────────|                               |
-       |                               |                               |
-       | 6. Browser renders the HTML   |                               |
+  Your Browser Flask (WSGI App) Your Python Code
+       | | |
+       | 1. HTTP GET /students | |
+       |>| |
+       | | |
+       | | 2. Parse the HTTP request |
+       | | ("Method: GET, Path: /students")
+       | | |
+       | | 3. Find matching route |
+       | | @app.route('/students') |
+       | |>|
+       | | |
+       | | 4. Run the |
+       | | function |
+       | | return "" |
+       | |<|
+       | | |
+       | | 5. Build HTTP response |
+       | | (Status: 200 OK) |
+       |<| |
+       | | |
+       | 6. Browser renders the HTML | |
 ```
 
 ---
@@ -140,11 +140,11 @@ The better way is to put HTML in **template files** and use **Jinja2** to inject
 
 ```
 my_flask_app/
-├── app.py                ← Python logic (Controller)
-└── templates/            ← HTML files (View)
-    ├── layout.html       ← Base template (header, footer)
-    ├── home.html         ← Homepage
-    └── students.html     ← Students list page
+ app.py ← Python logic (Controller)
+ templates/ ← HTML files (View)
+     layout.html ← Base template (header, footer)
+     home.html ← Homepage
+     students.html ← Students list page
 ```
 
 ```python
@@ -157,7 +157,7 @@ app = Flask(__name__)
 def list_students():
     students = [
         {"name": "Alice", "marks": 85},
-        {"name": "Bob",   "marks": 35},
+        {"name": "Bob", "marks": 35},
     ]
     # Pass the list to the template
     return render_template('students.html', students=students)
@@ -174,7 +174,7 @@ def list_students():
     <!-- Jinja2 FOR loop: {{ double curly }} for variables, {% %} for logic -->
     {% for student in students %}
       <li>
-        {{ student.name }}  ← This prints the name variable
+        {{ student.name }} ← This prints the name variable
         {% if student.marks >= 40 %}
           ✅ PASS
         {% else %}
@@ -214,12 +214,12 @@ def add_student():
         # Access form data by the 'name' attribute of the HTML input
         student_name = request.form.get('name')
         marks = int(request.form.get('marks', 0))
-        
+
         # ... save to database ...
-        
+
         # Always redirect after a POST to prevent form re-submission on refresh
         return redirect(url_for('list_students'))
-    
+
     return render_template('add_student.html')
 ```
 
@@ -237,19 +237,19 @@ Use `url_for('function_name')` instead of hardcoding `/students`. If you ever ch
 
 ```
 my_flask_app/
-├── app.py                    ← Main application (routes, config)
-├── requirements.txt          ← List of Python packages needed
-│
-├── templates/                ← Jinja2 HTML templates
-│   ├── base.html             ← Master layout (header, footer)
-│   ├── home.html             ← Home page
-│   ├── login.html            ← Login form
-│   └── students.html         ← Students list
-│
-└── static/                   ← Files served directly (no processing)
-    ├── style.css             ← Your CSS
-    ├── script.js             ← Your JavaScript
-    └── logo.png              ← Images
+ app.py ← Main application (routes, config)
+ requirements.txt ← List of Python packages needed
+
+ templates/ ← Jinja2 HTML templates
+    base.html ← Master layout (header, footer)
+    home.html ← Home page
+    login.html ← Login form
+    students.html ← Students list
+
+ static/ ← Files served directly (no processing)
+     style.css ← Your CSS
+     script.js ← Your JavaScript
+     logo.png ← Images
 ```
 
 ---

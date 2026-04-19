@@ -90,7 +90,7 @@ def main():
                                     rel_path = os.path.relpath(os.path.join(root, file), exp_path)
                                     code_content += f"// --- {rel_path} ---\n" + load_file_content(os.path.join(root, file)) + "\n\n"
             else:
-                # Search across all mapped directories for theory files
+                # Search across all mapped directories for theory and code files
                 for dir_name in dir_names:
                     if dir_name == "Practical_Experiments": continue # Skip experiments folder for theory search
                     dir_path = os.path.join(project_root, dir_name)
@@ -99,12 +99,11 @@ def main():
                     for filename in os.listdir(dir_path):
                         # Match by slug or partial name
                         if slug in filename.lower() or filename.lower().endswith(f"{slug}.md") or slug.replace("_", "") in filename.lower().replace("_", ""):
-                            if filename.endswith(".md"):
+                            file_ext = os.path.splitext(filename)[1].lower()
+                            if file_ext == ".md":
                                 md_content = load_file_content(os.path.join(dir_path, filename))
-                            elif filename.endswith((".py", ".js", ".css", ".html", ".sql", ".yaml")):
+                            elif file_ext in [".py", ".js", ".css", ".html", ".sql", ".yaml"]:
                                 code_content += f"// --- {filename} ---\n" + load_file_content(os.path.join(dir_path, filename)) + "\n\n"
-                        if md_content: break # Found it
-                    if md_content: break
 
             processed_topic = topic.copy()
             processed_topic["theory"] = md_content

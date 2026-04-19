@@ -16,7 +16,7 @@ Not all web pages are built the same way. There are three major approaches:
 
 ```
   How it works:
-  
+
   Developer writes HTML file
        |
        ↓ (uploaded to server, never changes)
@@ -24,16 +24,16 @@ Not all web pages are built the same way. There are three major approaches:
        |
        ↓ Server sends the EXACT same file to everyone
   Browser displays page
-  
-  ┌─────────────────────────────────────────────────┐
-  │  Pros: Extreme speed (CDN delivery)             │
-  │        Simple to host (no Python, no database)  │
-  │        Great security (nothing to hack)         │
-  ├─────────────────────────────────────────────────┤
-  │  Cons: Same for everyone (no personalization)   │
-  │        Hard to update frequently                │
-  │  Examples: Documentation sites, landing pages   │
-  └─────────────────────────────────────────────────┘
+
+
+    Pros: Extreme speed (CDN delivery)
+          Simple to host (no Python, no database)
+          Great security (nothing to hack)
+
+    Cons: Same for everyone (no personalization)
+          Hard to update frequently
+    Examples: Documentation sites, landing pages
+
 ```
 
 ### Approach 2: Server-Side Rendering (SSR)
@@ -43,7 +43,7 @@ This is what **Flask** does by default!
 ```
   Browser requests /students
        |
-       ↓ 
+       ↓
   Flask runs Python code:
        1. Query database
        2. Fill Jinja2 template with data
@@ -51,16 +51,16 @@ This is what **Flask** does by default!
        |
        ↓ (a different, personalized HTML page for each user)
   Browser displays page (user specific!)
-  
-  ┌─────────────────────────────────────────────────┐
-  │  Pros: Dynamic content per user                 │
-  │        Great for SEO (Google sees full HTML)    │
-  │        Simpler frontend code                    │
-  ├─────────────────────────────────────────────────┤
-  │  Cons: Every click = full page reload           │
-  │        More server load (generates HTML often)  │
-  │  Examples: Old-school websites, Flask apps      │
-  └─────────────────────────────────────────────────┘
+
+
+    Pros: Dynamic content per user
+          Great for SEO (Google sees full HTML)
+          Simpler frontend code
+
+    Cons: Every click = full page reload
+          More server load (generates HTML often)
+    Examples: Old-school websites, Flask apps
+
 ```
 
 ### Approach 3: Client-Side Rendering (CSR / SPA)
@@ -70,23 +70,23 @@ Modern approach. Used by React, Vue, Angular.
 ```
   FIRST visit to the page:
   Browser requests / → Server sends tiny HTML + massive JS bundle
-  
+
   JS runs in browser, builds the entire page from scratch
-  
+
   EVERY click after that:
   Browser's JS → Fetch only the DATA (JSON) from the API
   JS updates only the specific part of the page that changed
   NO full page reload!
-  
-  ┌─────────────────────────────────────────────────┐
-  │  Pros: Feels like an app, not a website!        │
-  │        Very fast AFTER initial load             │
-  │        Can update small parts without reloading │
-  ├─────────────────────────────────────────────────┤
-  │  Cons: Slow INITIAL load (huge JS bundle)       │
-  │        SEO is harder (Google may not see data)  │
-  │  Examples: Gmail, Twitter, Facebook, Notion     │
-  └─────────────────────────────────────────────────┘
+
+
+    Pros: Feels like an app, not a website!
+          Very fast AFTER initial load
+          Can update small parts without reloading
+
+    Cons: Slow INITIAL load (huge JS bundle)
+          SEO is harder (Google may not see data)
+    Examples: Gmail, Twitter, Facebook, Notion
+
 ```
 
 ---
@@ -97,17 +97,17 @@ The **Fetch API** lets JavaScript request data from the server **in the backgrou
 
 ```
   TRADITIONAL (full page reload):
-  
+
   User clicks "Like"
        |
        ↓
   Entire page reloads with like count updated
   (takes 1-2 seconds, annoying!)
 
-  ──────────────────────────────────────────
+
 
   MODERN (async fetch):
-  
+
   User clicks "Like"
        |
        ↓
@@ -132,10 +132,10 @@ async function likePost(postId) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ user_id: 42 })
     });
-    
+
     // Parse the JSON response
     const data = await response.json();
-    
+
     // Update ONLY the like counter on the page (no reload!)
     document.getElementById('like-count').innerText = data.likes;
 }
@@ -149,19 +149,19 @@ An SPA is an app where the browser **loads only once** and then updates the page
 
 ```
   Traditional Website (Multiple Pages):
-  
-  Click Home  → Browser loads home.html
+
+  Click Home → Browser loads home.html
   Click About → Browser loads about.html (FULL RELOAD)
-  Click Back  → Browser loads home.html again (FULL RELOAD)
-  
-  ──────────────────────────────────────────
+  Click Back → Browser loads home.html again (FULL RELOAD)
+
+
 
   Single Page Application:
-  
-  Click Home  → JS shows the "Home" component (no reload)
+
+  Click Home → JS shows the "Home" component (no reload)
   Click About → JS shows the "About" component (no reload, instant!)
-  Click Back  → JS shows the "Home" component again (instant!)
-  
+  Click Back → JS shows the "Home" component again (instant!)
+
   URL still changes (for bookmarking), but browser never reloads.
 ```
 
@@ -178,7 +178,7 @@ JavaScript is powerful but not the fastest. **WebAssembly** allows other languag
 ```
   Traditional JS Pipeline:
   Code → Interpreted by JS engine → 10x slower than native
-  
+
   WASM Pipeline:
   C++/Rust → Compiled to WASM binary → Runs at near-native speed!
 ```
@@ -200,23 +200,23 @@ Your browser runs JavaScript from ANY website. Without restrictions, a malicious
 The **Sandbox** prevents this:
 
 ```
-  ┌──────────────────────────────────────────────────────────┐
-  │              BROWSER SANDBOX                             │
-  │  ┌────────────────────────────────────────────────────┐ │
-  │  │  JavaScript / WASM                                 │ │
-  │  │                                                    │ │
-  │  │  ✅ Can: Read/write page DOM                       │ │
-  │  │  ✅ Can: Make network requests (with restrictions) │ │
-  │  │  ✅ Can: Use localStorage                          │ │
-  │  │                                                    │ │
-  │  │  ❌ Cannot: Read your local files                  │ │
-  │  │  ❌ Cannot: Talk to other websites' servers        │ │
-  │  │            (without CORS permission)               │ │
-  │  │  ❌ Cannot: Access your hardware directly          │ │
-  │  └────────────────────────────────────────────────────┘ │
-  │                                                          │
-  │  Your OS and Files are OUTSIDE the sandbox              │
-  └──────────────────────────────────────────────────────────┘
+
+                BROWSER SANDBOX
+
+      JavaScript / WASM
+
+      ✅ Can: Read/write page DOM
+      ✅ Can: Make network requests (with restrictions)
+      ✅ Can: Use localStorage
+
+      ❌ Cannot: Read your local files
+      ❌ Cannot: Talk to other websites' servers
+                (without CORS permission)
+      ❌ Cannot: Access your hardware directly
+
+
+    Your OS and Files are OUTSIDE the sandbox
+
 ```
 
 ---

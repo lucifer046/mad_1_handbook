@@ -19,9 +19,9 @@ The internet works almost exactly like this! This system of splitting data into 
 ### Old Way: Circuit Switching (Like Telephone Calls)
 
 ```
-Before the call:   A phone wire is PHYSICALLY connected between You and Your Friend
-During the call:   Only YOU and your friend can use that wire
-After the call:    The wire is "released" for others to use
+Before the call: A phone wire is PHYSICALLY connected between You and Your Friend
+During the call: Only YOU and your friend can use that wire
+After the call: The wire is "released" for others to use
 ```
 
 **Problem**: Massively wasteful. If 1 million people call at once, you need 1 million separate physical wires!
@@ -33,9 +33,9 @@ Your message: "Hello, how are you?"
 
 Split into packets:
   [Packet 1: "Hello,"] → Route via Australia
-  [Packet 2: " how"]   → Route via Europe  
-  [Packet 3: " are"]   → Route via USA
-  [Packet 4: " you?"]  → Route via Africa
+  [Packet 2: " how"] → Route via Europe
+  [Packet 3: " are"] → Route via USA
+  [Packet 4: " you?"] → Route via Africa
 
 All arrive and are reassembled in order: "Hello, how are you?"
 ```
@@ -53,8 +53,8 @@ For all these packets to work, computers need to agree on rules. These rules are
 Every device on the internet has a unique **IP address** — just like a home address.
 
 ```
-  Your Home Address:      Your IP Address:
-  "42, MG Road,           "192.168.1.105"
+  Your Home Address: Your IP Address:
+  "42, MG Road, "192.168.1.105"
    Bengaluru, 560001"
 ```
 
@@ -87,27 +87,27 @@ TCP sits on top of IP and makes sure all your packets arrive:
 Let's trace every step of what happens when you type `http://example.com` and press Enter.
 
 ```
-YOU                DNS               SERVER
- |                  |                   |
- | 1. Type URL       |                   |
- |                  |                   |
- | 2. "What is the  |                   |
- |    IP address for|                   |
- |    example.com?" |                   |
- |----------------> |                   |
- |                  |                   |
- | 3. "It's         |                   |
- |    93.184.216.34"|                   |
- | <--------------- |                   |
- |                  |                   |
- | 4. Send HTTP GET to 93.184.216.34    |
+YOU DNS SERVER
+ | | |
+ | 1. Type URL | |
+ | | |
+ | 2. "What is the | |
+ | IP address for| |
+ | example.com?" | |
+ |----------------> | |
+ | | |
+ | 3. "It's | |
+ | 93.184.216.34"| |
+ | <--------------- | |
+ | | |
+ | 4. Send HTTP GET to 93.184.216.34 |
  |-------------------------------------> |
- |                                      |
- | 5. Server sends back HTML code       |
+ | |
+ | 5. Server sends back HTML code |
  | <------------------------------------- |
- |                                      |
- | 6. Browser reads HTML and draws      |
- |    the webpage on your screen        |
+ | |
+ | 6. Browser reads HTML and draws |
+ | the webpage on your screen |
 ```
 
 ### What is DNS?
@@ -129,11 +129,11 @@ When your browser and the server talk to each other, they use **HTTP** (HyperTex
 Here is a very important quirk:
 
 ```
-Request 1:  Browser → "Give me the homepage"
-Server:     Server  → "Here it is. *Server forgets this interaction*"
+Request 1: Browser → "Give me the homepage"
+Server: Server → "Here it is. *Server forgets this interaction*"
 
-Request 2:  Browser → "I am Alice, remember me?"
-Server:     Server  → "Who are you? I don't know you." 😮
+Request 2: Browser → "I am Alice, remember me?"
+Server: Server → "Who are you? I don't know you."
 ```
 
 The server has **amnesia** after every response! This is called being **stateless**. The server does not remember who it talked to. This is why websites need **login sessions and cookies** — they're a workaround for this amnesia.
@@ -159,19 +159,19 @@ When the server responds, it includes a **status code** — a 3-digit number tha
 
 ```
 2xx = ✅ SUCCESS
-  200 OK            → Everything worked perfectly
-  201 Created       → Your new resource was created
+  200 OK → Everything worked perfectly
+  201 Created → Your new resource was created
 
-3xx = ↩️ REDIRECT
-  301 Moved         → Page has a new address, go there
+3xx = ↩ REDIRECT
+  301 Moved → Page has a new address, go there
 
 4xx = ❌ CLIENT ERROR (Something YOU did was wrong)
-  400 Bad Request   → You sent garbage data
-  401 Unauthorized  → You need to log in first
-  403 Forbidden     → You are logged in but not allowed here
-  404 Not Found     → This page doesn't exist
+  400 Bad Request → You sent garbage data
+  401 Unauthorized → You need to log in first
+  403 Forbidden → You are logged in but not allowed here
+  404 Not Found → This page doesn't exist
 
-5xx = 💥 SERVER ERROR (Something the SERVER did was wrong)
+5xx = SERVER ERROR (Something the SERVER did was wrong)
   500 Internal Error → The server's code crashed
 ```
 
@@ -182,7 +182,7 @@ When the server responds, it includes a **status code** — a 3-digit number tha
 You can write Python code that acts **exactly like a browser** and makes HTTP requests:
 
 ```python
-import requests  # Install with: pip install requests
+import requests # Install with: pip install requests
 
 # ---- Step 1: Send a GET request (like typing a URL in your browser) ----
 response = requests.get('https://api.github.com')
@@ -191,7 +191,7 @@ response = requests.get('https://api.github.com')
 # Status 200 means "OK, everything worked!"
 if response.status_code == 200:
     print("SUCCESS! Connected to GitHub API")
-    
+
     # ---- Step 3: Read the data (it comes as JSON) ----
     data = response.json()
     print("Current User URL:", data['current_user_url'])

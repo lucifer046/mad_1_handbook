@@ -7,14 +7,14 @@ You've been coding on your laptop. Your app runs perfectly. But it only runs for
 **Deployment** is the process of putting your app onto a server that is connected to the internet, so that **anyone in the world** can use it.
 
 ```
-  YOUR LAPTOP                INTERNET               PRODUCTION SERVER
-  ┌──────────┐                                       ┌──────────────────┐
-  │          │                                       │                  │
-  │ app.py   │──────── Deployment ─────────────────>│  Running 24/7    │
-  │ style.css│                                       │  Public URL      │
-  │          │                                       │  Millions of     │
-  └──────────┘                                       │  users can visit │
-  (Only you)                                         └──────────────────┘
+  YOUR LAPTOP INTERNET PRODUCTION SERVER
+
+
+   app.py Deployment > Running 24/7
+   style.css Public URL
+                                                     Millions of
+                                           users can visit
+  (Only you)
 ```
 
 ---
@@ -24,29 +24,29 @@ You've been coding on your laptop. Your app runs perfectly. But it only runs for
 Think of building in the cloud like renting a kitchen:
 
 ```
-  ┌──────────────────────────────────────────────────────────────────┐
-  │                    WHAT YOU MANAGE vs. WHAT THEY MANAGE          │
-  ├──────────────────────────────────────────────────────────────────┤
-  │                                                                  │
-  │  IaaS (Infrastructure as a Service)                             │
-  │  "Renting a raw plot of land"                                   │
-  │  You get: a computer (virtual machine) connected to internet     │
-  │  You manage: OS, Python, Flask, database — EVERYTHING            │
-  │  Examples: AWS EC2, DigitalOcean Droplets, Google Compute        │
-  │                                                                  │
-  │  PaaS (Platform as a Service)                                   │
-  │  "Renting a fully-equipped kitchen"                              │
-  │  You get: a platform that already has Python installed           │
-  │  You manage: Just your app code                                  │
-  │  Examples: Heroku, Google App Engine, Railway, Render            │
-  │                                                                  │
-  │  SaaS (Software as a Service)                                   │
-  │  "Ordering food from a restaurant"                               │
-  │  You get: a complete, ready-to-use product                       │
-  │  You manage: Nothing technical                                   │
-  │  Examples: Gmail, Google Docs, Trello, Salesforce                │
-  │                                                                  │
-  └──────────────────────────────────────────────────────────────────┘
+
+                      WHAT YOU MANAGE vs. WHAT THEY MANAGE
+
+
+    IaaS (Infrastructure as a Service)
+    "Renting a raw plot of land"
+    You get: a computer (virtual machine) connected to internet
+    You manage: OS, Python, Flask, database — EVERYTHING
+    Examples: AWS EC2, DigitalOcean Droplets, Google Compute
+
+    PaaS (Platform as a Service)
+    "Renting a fully-equipped kitchen"
+    You get: a platform that already has Python installed
+    You manage: Just your app code
+    Examples: Heroku, Google App Engine, Railway, Render
+
+    SaaS (Software as a Service)
+    "Ordering food from a restaurant"
+    You get: a complete, ready-to-use product
+    You manage: Nothing technical
+    Examples: Gmail, Google Docs, Trello, Salesforce
+
+
 ```
 
 ---
@@ -72,13 +72,13 @@ App is live (maybe... hopefully)
 ```
 Developer pushes code to GitHub
   ↓
-GitHub Actions automatically runs ALL tests   ← CI (Continuous Integration)
+GitHub Actions automatically runs ALL tests ← CI (Continuous Integration)
   ↓
 If ALL tests pass...
   ↓
-Automatically builds and deploys to server    ← CD (Continuous Deployment)
+Automatically builds and deploys to server ← CD (Continuous Deployment)
   ↓
-App is live ✓ (automatically, every time)
+App is live (automatically, every time)
 ```
 
 ### A Real GitHub Actions Workflow File
@@ -91,28 +91,28 @@ name: Test and Deploy
 
 on:
   push:
-    branches: [ main ]       # Trigger this when code is pushed to main branch
+    branches: [ main ] # Trigger this when code is pushed to main branch
 
 jobs:
   test:
-    runs-on: ubuntu-latest   # Run on a fresh Linux machine
+    runs-on: ubuntu-latest # Run on a fresh Linux machine
 
     steps:
-      - uses: actions/checkout@v2        # Step 1: Download your code
-      
+      - uses: actions/checkout@v2 # Step 1: Download your code
+
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: '3.11'
-      
+
       - name: Install dependencies
-        run: pip install -r requirements.txt   # Step 2: Install packages
-      
+        run: pip install -r requirements.txt # Step 2: Install packages
+
       - name: Run tests
-        run: pytest                            # Step 3: Run all tests!
-      
+        run: pytest # Step 3: Run all tests!
+
       # If tests fail, everything STOPS HERE. No broken code gets deployed.
-      
+
       - name: Deploy to server
         run: |
           # Step 4: If we reach here, all tests passed. Deploy!
@@ -132,18 +132,18 @@ This happens because your laptop has Python 3.11, your teammate has Python 3.8, 
 **Docker** solves this by bundling your entire app AND its environment into a single **container** — like a shipping container that carries everything needed.
 
 ```
-  WITHOUT DOCKER:             WITH DOCKER:
-  
-  Your laptop:                Docker Container:
-  Python 3.11                 ┌─────────────────────────┐
-  Flask 2.0                   │  Python 3.11 (fixed)    │
-  Works!                      │  Flask 2.0   (fixed)    │
-                              │  Your app.py (fixed)    │
-  Your teammate's laptop:     └─────────────────────────┘
-  Python 3.8                        ↓         ↓         ↓
-  Flask 1.5                  Laptop  Teammate  Server
-  Broken!                    All identical. All work!
-  
+  WITHOUT DOCKER: WITH DOCKER:
+
+  Your laptop: Docker Container:
+  Python 3.11
+  Flask 2.0 Python 3.11 (fixed)
+  Works! Flask 2.0 (fixed)
+                                Your app.py (fixed)
+  Your teammate's laptop:
+  Python 3.8 ↓ ↓ ↓
+  Flask 1.5 Laptop Teammate Server
+  Broken! All identical. All work!
+
   Production server:
   Python 3.6
   Really broken!
@@ -186,8 +186,8 @@ docker run -p 5000:5000 my-flask-app
 An airplane has a "black box" that records everything. Your app needs logging for the same reason — to understand what went wrong when something crashes.
 
 ```
-  2026-04-19 10:32:01 INFO  → User alice logged in
-  2026-04-19 10:32:15 INFO  → GET /students - 200 OK (45ms)
+  2026-04-19 10:32:01 INFO → User alice logged in
+  2026-04-19 10:32:15 INFO → GET /students - 200 OK (45ms)
   2026-04-19 10:32:20 WARNING → Database query took 3.2 seconds (slow!)
   2026-04-19 10:32:45 ERROR → Unhandled exception in /checkout
   2026-04-19 10:32:45 ERROR → ZeroDivisionError: division by zero
@@ -199,9 +199,9 @@ import logging
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,            # Log INFO and above (not DEBUG)
+    level=logging.INFO, # Log INFO and above (not DEBUG)
     format='%(asctime)s %(levelname)s → %(message)s',
-    filename='app.log'             # Save to a file
+    filename='app.log' # Save to a file
 )
 
 logger = logging.getLogger(__name__)
@@ -209,9 +209,9 @@ logger = logging.getLogger(__name__)
 @app.route('/login', methods=['POST'])
 def login():
     username = request.form.get('username')
-    
+
     logger.info(f"Login attempt for user: {username}")
-    
+
     if authenticate(username, request.form.get('password')):
         logger.info(f"Login SUCCESS for user: {username}")
         return redirect('/dashboard')
@@ -223,10 +223,10 @@ def login():
 ### Log Levels (From Least to Most Severe)
 
 ```
-  DEBUG    → Very detailed. "I'm about to run this query..."
-  INFO     → Normal events. "User logged in."
-  WARNING  → Something unexpected but not breaking. "Slow query!"
-  ERROR    → Something broke. "Exception occurred."
+  DEBUG → Very detailed. "I'm about to run this query..."
+  INFO → Normal events. "User logged in."
+  WARNING → Something unexpected but not breaking. "Slow query!"
+  ERROR → Something broke. "Exception occurred."
   CRITICAL → The app itself is in trouble. "Cannot connect to database!"
 ```
 
@@ -250,17 +250,17 @@ Before you deploy anything to production:
   [ ] Never hardcode passwords or API keys in code
   [ ] Set DEBUG=False in production
   [ ] Use HTTPS (SSL certificate)
-  
+
   Performance:
   [ ] Test with realistic load (not just 1 user)
   [ ] Set up database indexes on frequently searched columns
   [ ] Enable caching for slow, repeated queries
-  
+
   Reliability:
   [ ] Set up logging and monitoring
   [ ] Configure log rotation
   [ ] Set up alerts for when the app crashes
-  
+
   Process:
   [ ] All tests pass
   [ ] Code has been reviewed by another person

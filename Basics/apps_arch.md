@@ -18,11 +18,11 @@ Think of a burger:
 
 ```
         +----------------------------------+
-        |  🍞  Top Bun (Presentation)      |  ← What you SEE (HTML, CSS, UI)
+        | Top Bun (Presentation) | ← What you SEE (HTML, CSS, UI)
         +----------------------------------+
-        |  🥩  Patty (Logic / Backend)     |  ← What HAPPENS (Python, rules)
+        | Patty (Logic / Backend) | ← What HAPPENS (Python, rules)
         +----------------------------------+
-        |  🍞  Bottom Bun (Data Storage)   |  ← What is REMEMBERED (Database)
+        | Bottom Bun (Data Storage) | ← What is REMEMBERED (Database)
         +----------------------------------+
 ```
 
@@ -52,16 +52,16 @@ When apps need to talk to each other over the internet, they use one of two mode
 This is like a **waiter in a restaurant**:
 
 ```
-  YOU (Client)                         RESTAURANT (Server)
-  [Your Phone/Browser]                 [Computer in Data Center]
-        |                                        |
-        |   1. "I want the homepage, please!"    |
-        |  ------------------------------------> |
-        |                                        |
-        |   2. "Here is the HTML page!"          |
-        |  <------------------------------------ |
-        |                                        |
-        |   3. Browser draws the page for you    |
+  YOU (Client) RESTAURANT (Server)
+  [Your Phone/Browser] [Computer in Data Center]
+        | |
+        | 1. "I want the homepage, please!" |
+        | ------------------------------------> |
+        | |
+        | 2. "Here is the HTML page!" |
+        | <------------------------------------ |
+        | |
+        | 3. Browser draws the page for you |
 ```
 
 - **Pros**: Easy to update (fix the restaurant without telling customers), centralized control
@@ -74,11 +74,11 @@ This is how **Netflix, YouTube, and Google** work.
 This is like students **sharing notes directly** with each other — no teacher in the middle!
 
 ```
-  Computer A  <----> Computer B
-       ^                  ^
-       |                  |
-       v                  v
-  Computer C  <----> Computer D
+  Computer A <----> Computer B
+       ^ ^
+       | |
+       v v
+  Computer C <----> Computer D
 ```
 
 - **Pros**: No single point of failure. Very resilient.
@@ -109,15 +109,15 @@ The same rule applies to code. The **"Separation of Concerns"** principle says:
 MVC is the most widely used "template" for organizing web applications. Let's use the restaurant analogy again:
 
 ```
-+----------+     +------------+     +-------+
-|   VIEW   |     | CONTROLLER |     | MODEL |
-|          |     |            |     |       |
-|  Menu /  | --> |   Waiter   | --> | Chef  |
-|  Table   |     |            |     | &     |
-| (HTML)   | <-- |            | <-- |Kitchen|
-+----------+     +------------+     +-------+
-  What user        Routes and        Database &
-  SEES             decisions         Data logic
++----------+ +------------+ +-------+
+| VIEW | | CONTROLLER | | MODEL |
+| | | | | |
+| Menu / | --> | Waiter | --> | Chef |
+| Table | | | | & |
+| (HTML) | <-- | | <-- |Kitchen|
++----------+ +------------+ +-------+
+  What user Routes and Database &
+  SEES decisions Data logic
 ```
 
 **Step-by-step flow:**
@@ -177,11 +177,11 @@ def handle_login_request(username, password):
     It does NOT talk to the database directly.
     """
     is_valid = check_login(username, password) # Calls the Model
-    
+
     if is_valid:
-        return show_dashboard(username)  # Calls the View
+        return show_dashboard(username) # Calls the View
     else:
-        return show_error_screen()       # Calls the View
+        return show_error_screen() # Calls the View
 
 
 # =============================================================

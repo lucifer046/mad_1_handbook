@@ -20,8 +20,8 @@ An HTML file is just a **text file** with special tags wrapped in `< >` brackets
 
 ```
 <tag>Content goes here</tag>
-  ↑                      ↑
-Opening tag          Closing tag (has a /)
+  ↑ ↑
+Opening tag Closing tag (has a /)
 ```
 
 ---
@@ -31,17 +31,17 @@ Opening tag          Closing tag (has a /)
 Every HTML file in the world has the same basic skeleton:
 
 ```html
-<!DOCTYPE html>              ← Tells the browser "this is HTML5"
-<html lang="en">             ← The root tag. Everything is inside this.
-  
-  <head>                     ← INVISIBLE section (info FOR the browser)
-    <meta charset="UTF-8">   ← "Use UTF-8 encoding for all characters"
-    <title>My Page</title>   ← What appears in the browser tab
+<!DOCTYPE html> ← Tells the browser "this is HTML5"
+<html lang="en"> ← The root tag. Everything is inside this.
+
+  <head> ← INVISIBLE section (info FOR the browser)
+    <meta charset="UTF-8"> ← "Use UTF-8 encoding for all characters"
+    <title>My Page</title> ← What appears in the browser tab
   </head>
-  
-  <body>                     ← VISIBLE section (what users SEE)
-    <h1>Hello World!</h1>    ← A big heading
-    <p>My first page.</p>    ← A paragraph of text
+
+  <body> ← VISIBLE section (what users SEE)
+    <h1>Hello World!</h1> ← A big heading
+    <p>My first page.</p> ← A paragraph of text
   </body>
 
 </html>
@@ -59,12 +59,12 @@ Think of it like a **family tree**:
                     document
                        |
                       html
-                    /       \
-                head         body
-               /   \        /     \
-          title   meta     h1      p
-            |               |      |
-        "My Page"        "Hello"  "Text"
+                    / \
+                head body
+               / \ / \
+          title meta h1 p
+            | | |
+        "My Page" "Hello" "Text"
 ```
 
 Each item in the tree is called a **node**. JavaScript can walk through this tree and change any part of the page without reloading!
@@ -76,28 +76,28 @@ Each item in the tree is called a **node**. JavaScript can walk through this tre
 ### Structural Tags (For organizing sections)
 
 ```html
-<header>   → Top section of a page (logo, navigation)
-<nav>      → Navigation links
-<main>     → The main content area
-<section>  → A thematic group of content
-<article>  → A self-contained piece of content (like a blog post)
-<footer>   → Bottom section (copyright, contact)
-<div>      → A generic container (no meaning, just grouping)
+<header> → Top section of a page (logo, navigation)
+<nav> → Navigation links
+<main> → The main content area
+<section> → A thematic group of content
+<article> → A self-contained piece of content (like a blog post)
+<footer> → Bottom section (copyright, contact)
+<div> → A generic container (no meaning, just grouping)
 ```
 
 ### Content Tags (For actual content)
 
 ```html
 <h1>Largest Heading</h1>
-<h2>Smaller Heading</h2>        ← h1 to h6 (h6 is smallest)
+<h2>Smaller Heading</h2> ← h1 to h6 (h6 is smallest)
 <p>A paragraph of text.</p>
-<a href="https://google.com">Click me!</a>   ← A link
-<img src="photo.jpg" alt="My photo">         ← An image
-<ul>                                          ← Unordered list (bullets)
+<a href="https://google.com">Click me!</a> ← A link
+<img src="photo.jpg" alt="My photo"> ← An image
+<ul> ← Unordered list (bullets)
   <li>Item 1</li>
   <li>Item 2</li>
 </ul>
-<ol>                                          ← Ordered list (numbers)
+<ol> ← Ordered list (numbers)
   <li>First</li>
   <li>Second</li>
 </ol>
@@ -112,10 +112,10 @@ Each item in the tree is called a **node**. JavaScript can walk through this tre
 <form method="POST" action="/submit">
   <label for="email">Email:</label>
   <input type="email" id="email" name="email" placeholder="you@example.com">
-  
+
   <label for="password">Password:</label>
   <input type="password" id="password" name="password">
-  
+
   <button type="submit">Login</button>
 </form>
 ```
@@ -156,22 +156,22 @@ Two ways to write "navigation links":
 The DOM is not just a tree for the browser to look at — JavaScript can **modify it in real time**!
 
 ```
- HTML File (Static)          Browser Memory (DOM)           Screen
-                        
- <h1 id="title">             document                     ┌──────────┐
-   Hello                     └── html                     │  Hello   │
- </h1>                            └── body                └──────────┘
-                                       └── h1
-                                             └── "Hello"
+ HTML File (Static) Browser Memory (DOM) Screen
+
+ <h1 id="title"> document
+   Hello html Hello
+ </h1> body
+                                        h1
+                                              "Hello"
                                                   ↑
                           JavaScript can come here
                           and change "Hello" to "Goodbye"!
-                          
+
                           document.getElementById("title").innerText = "Goodbye";
                                                             ↓
-                                                     ┌──────────┐
-                                                     │ Goodbye  │
-                                                     └──────────┘
+
+                                                      Goodbye
+
 ```
 
 This is the magic behind all interactive websites — the page changes **without reloading!**
@@ -190,9 +190,9 @@ Before change:
 You insert a new box between A and B...
 
 After change (reflow needed):
-  Box A: top=10px, left=5px   ← stays same
-  NEW:   top=50px, left=5px   ← new element
-  Box B: top=90px, left=5px   ← pushed down!
+  Box A: top=10px, left=5px ← stays same
+  NEW: top=50px, left=5px ← new element
+  Box B: top=90px, left=5px ← pushed down!
 ```
 
 Reflows are computationally expensive. Modern JavaScript frameworks (like React) use a "Virtual DOM" — they calculate changes in memory FIRST, then apply everything at once, minimizing reflows.

@@ -31,12 +31,12 @@ A CSS rule looks like this:
        selector
           ↓
         h1 {
-            color: blue;         ← property: value
-            font-size: 2rem;     ← each rule ends with ;
+            color: blue; ← property: value
+            font-size: 2rem; ← each rule ends with ;
         }
-        ↑                 ↑
-     opening           closing
-     brace             brace
+        ↑ ↑
+     opening closing
+     brace brace
 ```
 
 This rule says: **"Find ALL `<h1>` tags and make them blue, size 2rem."**
@@ -49,22 +49,22 @@ Selectors tell CSS **which HTML elements to style**.
 
 ```css
 /* 1. TAG selector - targets ALL elements of that type */
-h1 { color: red; }        /* Every h1 on the page goes red */
-p  { font-size: 1rem; }   /* Every paragraph on the page */
+h1 { color: red; } /* Every h1 on the page goes red */
+p { font-size: 1rem; } /* Every paragraph on the page */
 
 /* 2. CLASS selector - targets elements with that class */
-.warning-text { color: orange; }   /* <p class="warning-text"> */
-.big-button   { padding: 1rem; }   /* <button class="big-button"> */
+.warning-text { color: orange; } /* <p class="warning-text"> */
+.big-button { padding: 1rem; } /* <button class="big-button"> */
 
 /* 3. ID selector - targets ONE specific element */
-#main-title { font-size: 3rem; }   /* <h1 id="main-title"> */
+#main-title { font-size: 3rem; } /* <h1 id="main-title"> */
 
 /* 4. PSEUDO-CLASS - targets a specific STATE of an element */
-a:hover { color: purple; }         /* When mouse hovers over a link */
-input:focus { border: 2px solid blue; }  /* When you click inside an input */
+a:hover { color: purple; } /* When mouse hovers over a link */
+input:focus { border: 2px solid blue; } /* When you click inside an input */
 
 /* 5. Combining selectors */
-nav a { text-decoration: none; }  /* Links INSIDE a nav, not all links */
+nav a { text-decoration: none; } /* Links INSIDE a nav, not all links */
 ```
 
 [NOTE]
@@ -79,12 +79,12 @@ The "Cascading" in CSS means there's a priority system:
 
 ```
 Priority Order (Highest to Lowest):
-┌─────────────────────────────────────────────────────┐
-│ 1. Inline CSS    <h1 style="color:red">             │  ← WINS
-│ 2. Internal CSS  <style>h1 {color:blue}</style>     │
-│ 3. External CSS  .css file (h1 {color:green})       │
-│ 4. Browser default                                  │  ← Loses
-└─────────────────────────────────────────────────────┘
+
+ 1. Inline CSS <h1 style="color:red"> ← WINS
+ 2. Internal CSS <style>h1 {color:blue}</style>
+ 3. External CSS .css file (h1 {color:green})
+ 4. Browser default ← Loses
+
 ```
 
 If two rules have the SAME priority, the one written LATER in the file wins:
@@ -94,7 +94,7 @@ If two rules have the SAME priority, the one written LATER in the file wins:
 h1 { color: blue; }
 
 /* ...but this comes later, so it WINS */
-h1 { color: red; }   /* h1 will be RED */
+h1 { color: red; } /* h1 will be RED */
 ```
 
 ---
@@ -104,18 +104,18 @@ h1 { color: red; }   /* h1 will be RED */
 This is the single most important concept in CSS layout. **EVERY element on a webpage is a rectangular box**, made of 4 layers:
 
 ```
-  ┌─────────────────────────────────────┐
-  │              MARGIN                 │  ← Space OUTSIDE (between elements)
-  │   ┌─────────────────────────────┐  │
-  │   │           BORDER            │  │  ← The visible edge line
-  │   │   ┌─────────────────────┐  │  │
-  │   │   │       PADDING       │  │  │  ← Space INSIDE (between border and content)
-  │   │   │   ┌─────────────┐   │  │  │
-  │   │   │   │   CONTENT   │   │  │  │  ← Your actual text or image
-  │   │   │   └─────────────┘   │  │  │
-  │   │   └─────────────────────┘  │  │
-  │   └─────────────────────────────┘  │
-  └─────────────────────────────────────┘
+
+                MARGIN ← Space OUTSIDE (between elements)
+
+                BORDER ← The visible edge line
+
+               PADDING ← Space INSIDE the border
+
+              CONTENT ← Your text or image
+
+
+
+
 ```
 
 ```css
@@ -123,18 +123,18 @@ div {
     /* Content is sized by width/height */
     width: 200px;
     height: 100px;
-    
+
     /* Padding: space inside the border */
-    padding: 20px;         /* 20px on ALL sides */
-    padding: 10px 20px;    /* 10px top/bottom, 20px left/right */
-    
+    padding: 20px; /* 20px on ALL sides */
+    padding: 10px 20px; /* 10px top/bottom, 20px left/right */
+
     /* Border: the visible edge */
-    border: 2px solid black;    /* thickness | style | color */
-    border-radius: 10px;        /* Rounds the corners! */
-    
+    border: 2px solid black; /* thickness | style | color */
+    border-radius: 10px; /* Rounds the corners! */
+
     /* Margin: space outside the border */
-    margin: 30px;          /* 30px on ALL sides */
-    margin: 0 auto;        /* 0 top/bottom, auto left/right = CENTER! */
+    margin: 30px; /* 30px on ALL sides */
+    margin: 0 auto; /* 0 top/bottom, auto left/right = CENTER! */
 }
 ```
 
@@ -155,19 +155,19 @@ Now `width: 200px` INCLUDES padding and border. Much more predictable!
 Flexbox is perfect for aligning items in a **row** or **column**:
 
 ```
-Without Flexbox:        With Flexbox (row):
-  [ ]                   [Box1] [Box2] [Box3]
+Without Flexbox: With Flexbox (row):
+  [ ] [Box1] [Box2] [Box3]
   [ ]
   [ ]
 ```
 
 ```css
 .container {
-    display: flex;              /* Turn on Flexbox */
-    flex-direction: row;        /* Items go left to right (default) */
-    justify-content: center;    /* Center items horizontally */
-    align-items: center;        /* Center items vertically */
-    gap: 1rem;                  /* Space between items */
+    display: flex; /* Turn on Flexbox */
+    flex-direction: row; /* Items go left to right (default) */
+    justify-content: center; /* Center items horizontally */
+    align-items: center; /* Center items vertically */
+    gap: 1rem; /* Space between items */
 }
 ```
 
@@ -178,17 +178,17 @@ Grid is perfect for full page layouts:
 ```
 .page-layout {
     display: grid;
-    grid-template-columns: 250px 1fr;  /* Sidebar | Main Content */
-    grid-template-rows: 80px 1fr;       /* Header | Body */
+    grid-template-columns: 250px 1fr; /* Sidebar | Main Content */
+    grid-template-rows: 80px 1fr; /* Header | Body */
 }
 
 Visual result:
-┌──────────┬──────────────────────┐
-│ HEADER   │ HEADER               │
-├──────────┼──────────────────────┤
-│ SIDEBAR  │ MAIN CONTENT         │
-│ 250px    │ (fills rest)         │
-└──────────┴──────────────────────┘
+
+ HEADER HEADER
+
+ SIDEBAR MAIN CONTENT
+ 250px (fills rest)
+
 ```
 
 ### Responsive Design with Media Queries
@@ -206,8 +206,8 @@ Your webpage should look good on **phones, tablets, AND desktops**. Media querie
 /* When screen is smaller than 768px (tablet/phone): */
 @media (max-width: 768px) {
     .container {
-        width: 100%;          /* Full width */
-        grid-template-columns: 1fr;  /* Single column, no sidebar */
+        width: 100%; /* Full width */
+        grid-template-columns: 1fr; /* Single column, no sidebar */
     }
 }
 ```
@@ -220,11 +220,11 @@ CSS supports many ways to specify colors:
 
 ```css
 h1 {
-    color: red;                    /* Named color */
-    color: #FF5733;                /* Hex code (most common) */
-    color: rgb(255, 87, 51);       /* RGB values (0-255) */
+    color: red; /* Named color */
+    color: #FF5733; /* Hex code (most common) */
+    color: rgb(255, 87, 51); /* RGB values (0-255) */
     color: rgba(255, 87, 51, 0.5); /* With 50% transparency */
-    color: hsl(14, 100%, 60%);     /* Hue, Saturation, Lightness */
+    color: hsl(14, 100%, 60%); /* Hue, Saturation, Lightness */
 }
 ```
 

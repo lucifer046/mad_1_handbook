@@ -20,15 +20,15 @@ Before we dive in, here is what the complete journey looks like:
 
 ```
 +-------------------------------------------------------------+
-|                   THE WEB APP JOURNEY                       |
+| THE WEB APP JOURNEY |
 +-----+-------------------------------------------------------+
-|  1  |  BASICS         → What is software? What is MVC?     |
-|  2  |  WEB            → How does the Internet work?         |
-|  3  |  HTML & CSS     → How do pages look?                  |
-|  4  |  DATA           → How is data stored & retrieved?     |
-|  5  |  BACKEND        → Flask, Routing, APIs                |
-|  6  |  SECURITY       → How do we protect the app?          |
-|  7  |  DEVOPS         → How do we test and deploy?          |
+| 1 | BASICS → What is software? What is MVC? |
+| 2 | WEB → How does the Internet work? |
+| 3 | HTML & CSS → How do pages look? |
+| 4 | DATA → How is data stored & retrieved? |
+| 5 | BACKEND → Flask, Routing, APIs |
+| 6 | SECURITY → How do we protect the app? |
+| 7 | DEVOPS → How do we test and deploy? |
 +-----+-------------------------------------------------------+
 ```
 
@@ -42,11 +42,11 @@ This handbook is **interactive**. It has two parts visible at all times:
 
 ```
 +----------------------------+----------------------------+
-|     THEORY (Left Pane)     |    CODE (Right Pane)       |
-|                            |                            |
-|  Read the explanation      |  See the actual code       |
-|  here, like a textbook.    |  here, like a lab.         |
-|                            |                            |
+| THEORY (Left Pane) | CODE (Right Pane) |
+| | |
+| Read the explanation | See the actual code |
+| here, like a textbook. | here, like a lab. |
+| | |
 +----------------------------+----------------------------+
 ```
 

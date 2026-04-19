@@ -5,8 +5,8 @@
 When your Python program runs, all variables live in **RAM** (Random Access Memory). The moment you close the program, the RAM is wiped clean. Everything is gone.
 
 ```
-Run program:   student = "Alice"    ← Lives in RAM
-Close program: Poof! Gone forever.  ← RAM is cleared
+Run program: student = "Alice" ← Lives in RAM
+Close program: Poof! Gone forever. ← RAM is cleared
 ```
 
 This is why we need **Persistent Storage** — a way to save data that survives program restarts.
@@ -18,33 +18,33 @@ This is why we need **Persistent Storage** — a way to save data that survives 
 Think of it like where you keep things at home:
 
 ```
-  SPEED ↑                                       COST ↑
-  SIZE  ↓                                       SIZE  ↑
-  
-  ┌──────────────────────────────────────────────────┐
-  │  REGISTERS (in CPU)                              │
-  │  Like holding something IN YOUR HAND             │
-  │  Tiny amount. Blazing fast. But only for 1 thing │
-  ├──────────────────────────────────────────────────┤
-  │  RAM (Temporary Memory)                          │
-  │  Like your work DESK                             │
-  │  Fast, but cleared when power off                │
-  ├──────────────────────────────────────────────────┤
-  │  SSD (Solid State Drive)                         │
-  │  Like a BOOKSHELF in your room                   │
-  │  Slower, but permanent. Most modern laptops      │
-  ├──────────────────────────────────────────────────┤
-  │  HDD (Hard Disk Drive)                           │
-  │  Like a FILING CABINET in a back room            │
-  │  Slow, large, cheap. Old-school servers          │
-  ├──────────────────────────────────────────────────┤
-  │  COLD STORAGE (Cloud Archive)                    │
-  │  Like a STORAGE UNIT far away                    │
-  │  Cheapest. Takes hours to retrieve data.         │
-  └──────────────────────────────────────────────────┘
-  
-  SPEED ↓                                       COST ↓
-  SIZE  ↑                                       SIZE  ↓
+  SPEED ↑ COST ↑
+  SIZE ↓ SIZE ↑
+
+
+    REGISTERS (in CPU)
+    Like holding something IN YOUR HAND
+    Tiny amount. Blazing fast. But only for 1 thing
+
+    RAM (Temporary Memory)
+    Like your work DESK
+    Fast, but cleared when power off
+
+    SSD (Solid State Drive)
+    Like a BOOKSHELF in your room
+    Slower, but permanent. Most modern laptops
+
+    HDD (Hard Disk Drive)
+    Like a FILING CABINET in a back room
+    Slow, large, cheap. Old-school servers
+
+    COLD STORAGE (Cloud Archive)
+    Like a STORAGE UNIT far away
+    Cheapest. Takes hours to retrieve data.
+
+
+  SPEED ↓ COST ↓
+  SIZE ↑ SIZE ↓
 ```
 
 ---
@@ -54,14 +54,14 @@ Think of it like where you keep things at home:
 Your Python code uses **objects** (like a `Student` class). But files only store **raw text or bytes**. Converting one to the other is called **Serialization**.
 
 ```
-Python Object                     File / Network
-┌──────────────────┐              ┌────────────────────┐
-│ Student Object   │   Serialize  │ "Alice,21CS001,85" │
-│  name = "Alice"  │ ──────────→  │ (text in a file)   │
-│  roll = "21CS001"│              └────────────────────┘
-│  marks = 85      │   Deserialize
-│                  │ ←──────────  (Read it back)
-└──────────────────┘
+Python Object File / Network
+
+ Student Object Serialize "Alice,21CS001,85"
+  name = "Alice" → (text in a file)
+  roll = "21CS001"
+  marks = 85 Deserialize
+                   ← (Read it back)
+
 ```
 
 ### Option 1: CSV Files (Comma Separated Values)
@@ -87,14 +87,14 @@ import pickle
 
 # SAVING (Serializing)
 student = {"name": "Alice", "marks": 85}
-with open("student.pkl", "wb") as f:  # wb = write binary
+with open("student.pkl", "wb") as f: # wb = write binary
     pickle.dump(student, f)
 
 # LOADING (Deserializing)
-with open("student.pkl", "rb") as f:  # rb = read binary
+with open("student.pkl", "rb") as f: # rb = read binary
     loaded_student = pickle.load(f)
-    
-print(loaded_student)  # {'name': 'Alice', 'marks': 85}
+
+print(loaded_student) # {'name': 'Alice', 'marks': 85}
 ```
 
 **Pros**: Super easy, preserves exact Python types
@@ -119,14 +119,14 @@ For real applications, we use databases. A database is like a very smart Excel s
 In a school database, data is split across multiple tables. Tables are linked by **IDs**.
 
 ```
-  STUDENTS Table                 HOSTELS Table
-  ┌────┬───────┬──────────┐      ┌────┬───────────┐
-  │ ID │ Name  │ hostel_id│      │ ID │ Name      │
-  ├────┼───────┼──────────┤      ├────┼───────────┤
-  │ 1  │ Alice │    1     │─────>│ 1  │ Godavari  │
-  │ 2  │ Bob   │    2     │─────>│ 2  │ Kaveri    │
-  │ 3  │ Carol │    1     │─┐    └────┴───────────┘
-  └────┴───────┴──────────┘ └────> (also Godavari)
+  STUDENTS Table HOSTELS Table
+
+   ID Name hostel_id ID Name
+
+   1 Alice 1 > 1 Godavari
+   2 Bob 2 > 2 Kaveri
+   3 Carol 1
+   > (also Godavari)
 
 The hostel_id in STUDENTS is a FOREIGN KEY that points to HOSTELS.
 ```
@@ -135,15 +135,15 @@ The hostel_id in STUDENTS is a FOREIGN KEY that points to HOSTELS.
 
 ```
   ONE-to-ONE: (1 student has 1 roll number)
-    [Student] ─────────── [Roll Number]
+    [Student] [Roll Number]
 
   ONE-to-MANY: (1 hostel has many students)
-    [Hostel] ──────────< [Student]
-    [Hostel] ──────────< [Student]
-    [Hostel] ──────────< [Student]
+    [Hostel] < [Student]
+    [Hostel] < [Student]
+    [Hostel] < [Student]
 
   MANY-to-MANY: (many students take many courses)
-    [Student] >───────< [Course]
+    [Student] >< [Course]
     (This needs a third "junction" table to store the pairs)
 ```
 

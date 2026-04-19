@@ -15,20 +15,20 @@ Now imagine this calculator controls the autopilot of an airplane.
 Think of testing like checking your homework:
 
 ```
-                         ┌─────────────────────────┐
-                         │   ACCEPTANCE TESTING     │  ← The teacher checks your final project
-                         │  (Slow, Expensive, Few)  │
-                        /└─────────────────────────┘\
-                       /                              \
-                      /    ┌───────────────────────┐   \
-                     /     │  INTEGRATION TESTING  │    \
-                    /      │  (Medium speed, some) │     \
-                   /       └───────────────────────┘      \
-                  /                                         \
-                 /   ┌───────────────────────────────────┐   \
-                /    │         UNIT TESTING              │    \
-               /     │  (Fast, Cheap, Many — run always) │     \
-              /      └───────────────────────────────────┘      \
+
+                            ACCEPTANCE TESTING ← Teacher checks
+                           (Slow, Expensive, Few) your final work
+                        /\
+                       / \
+                      / \
+                     / INTEGRATION TESTING \
+                    / (Medium speed, some) \
+                   / \
+                  / \
+                 / \
+                / UNIT TESTING \
+               / (Fast, Cheap, Many — run always) \
+              / \
 ```
 
 ### Level 1: Unit Testing (The Foundation)
@@ -60,7 +60,7 @@ from app import is_passing
 # Each test function starts with "test_"
 def test_passing_marks():
     """Test that a student with 85 marks is considered passing."""
-    assert is_passing(85) == True     # assert = "I am claiming this is true"
+    assert is_passing(85) == True # assert = "I am claiming this is true"
 
 def test_failing_marks():
     """Test that a student with 35 marks is considered failing."""
@@ -83,10 +83,10 @@ Test that **multiple components** work correctly when connected together.
 
 ```
 Testing: "Does the /login route work end-to-end?"
-        → Does it read from the request? ✓
-        → Does it query the database correctly? ✓
-        → Does it redirect on success? ✓
-        → Does it return an error on failure? ✓
+        → Does it read from the request?
+        → Does it query the database correctly?
+        → Does it redirect on success?
+        → Does it return an error on failure?
 ```
 
 ### Level 3: Acceptance Testing
@@ -103,14 +103,14 @@ You test the function **without looking at the code**. You only know: "What goes
 
 ```
   Black Box Test:
-  
+
     Input: marks = 85
-         ┌──────────┐
-  85  ──>│  ???     │──>  Expected Output: True
-         │ (code    │
-         │  hidden) │
-         └──────────┘
-    
+
+  85 > ??? > Expected Output: True
+          (code
+           hidden)
+
+
   You don't care HOW it calculates. Just that it returns True.
 ```
 
@@ -120,11 +120,11 @@ You test the function **with full access to the code**. You verify every possibl
 
 ```python
 def classify_student(marks):
-    if marks >= 80:             # ← Path A
+    if marks >= 80: # ← Path A
         return "Distinction"
-    elif marks >= 40:           # ← Path B
+    elif marks >= 40: # ← Path B
         return "Pass"
-    else:                       # ← Path C
+    else: # ← Path C
         return "Fail"
 ```
 
@@ -135,7 +135,7 @@ For 100% coverage, you MUST test all 3 paths (A, B, and C).
 After you fix a bug or add a new feature, you run ALL your tests again to make sure nothing broke.
 
 ```
-  Old Code (works)    →    Add new feature    →    Bug appears in OLD feature!
+  Old Code (works) → Add new feature → Bug appears in OLD feature!
                                                             ↑
                                                This is a REGRESSION.
                                                Run ALL tests to catch it.
@@ -175,11 +175,11 @@ def test_bob_is_failing(sample_model):
 
 # PARAMETRIZE: Run the same test with different inputs
 @pytest.mark.parametrize("marks, expected", [
-    (100, True),   # test case 1
-    (85,  True),   # test case 2
-    (40,  True),   # test case 3 — boundary
-    (39,  False),  # test case 4 — just below boundary
-    (0,   False),  # test case 5
+    (100, True), # test case 1
+    (85, True), # test case 2
+    (40, True), # test case 3 — boundary
+    (39, False), # test case 4 — just below boundary
+    (0, False), # test case 5
 ])
 def test_passing_boundary(marks, expected):
     from app import is_passing
@@ -194,12 +194,12 @@ def test_passing_boundary(marks, expected):
 TDD flips the order — you write the **test BEFORE the code**:
 
 ```
-  STEP 1 (RED):     Write a test for a feature that doesn't exist yet.
+  STEP 1 (RED): Write a test for a feature that doesn't exist yet.
                     Run it → It FAILS (of course, the code isn't written!)
-                    
-  STEP 2 (GREEN):   Write the MINIMUM code needed to make that test pass.
+
+  STEP 2 (GREEN): Write the MINIMUM code needed to make that test pass.
                     Run it → It PASSES.
-                    
+
   STEP 3 (REFACTOR):Clean up the code without breaking any tests.
                     Run all tests → Still PASSING.
 
@@ -209,7 +209,7 @@ TDD flips the order — you write the **test BEFORE the code**:
 ```python
 # STEP 1 (RED): Write the test first
 def test_calculate_grade():
-    assert calculate_grade(95) == "A+"   # calculate_grade doesn't exist yet!
+    assert calculate_grade(95) == "A+" # calculate_grade doesn't exist yet!
     assert calculate_grade(85) == "A"
     assert calculate_grade(70) == "B"
 
@@ -222,7 +222,7 @@ def calculate_grade(marks):
     if marks >= 70: return "B"
     return "C"
 
-# → Run: ALL PASS ✓
+# → Run: ALL PASS
 
 # STEP 3 (REFACTOR): The code is clean, nothing to change here.
 ```

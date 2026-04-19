@@ -21,11 +21,11 @@ Imagine you built an amazing app, but:
 ```
   Types of disabilities to consider:
 
-  VISUAL        → Blind, low vision, color blindness
-  AUDITORY      → Deaf, hard of hearing
-  MOTOR         → Tremors, limited hand control, uses keyboard only, no mouse
-  COGNITIVE     → Dyslexia, ADHD, memory issues, learning difficulties
-  TEMPORARY     → Broken arm, bright sunlight on phone, noisy environment
+  VISUAL → Blind, low vision, color blindness
+  AUDITORY → Deaf, hard of hearing
+  MOTOR → Tremors, limited hand control, uses keyboard only, no mouse
+  COGNITIVE → Dyslexia, ADHD, memory issues, learning difficulties
+  TEMPORARY → Broken arm, bright sunlight on phone, noisy environment
                   (YES, temporary situations count!)
 ```
 
@@ -35,54 +35,54 @@ The W3C (World Wide Web Consortium) — the people who define how the web works 
 
 ```
   P — PERCEIVABLE
-  ─────────────────────────────────────────────────
+
   Users must be able to PERCEIVE all information.
-  
-  ✅ DO:  Add alt text to all images
+
+  ✅ DO: Add alt text to all images
           <img src="cat.jpg" alt="A fluffy orange cat on a couch">
-          
-  ✅ DO:  Provide captions for all videos
-  ✅ DO:  Ensure color contrast ratio is at least 4.5:1
-  
+
+  ✅ DO: Provide captions for all videos
+  ✅ DO: Ensure color contrast ratio is at least 4.5:1
+
   ❌ DON'T: Convey information using color alone
              "Required fields are in RED" — colorblind users can't tell!
 
-  ──────────────────────────────────────────────────
+
 
   O — OPERABLE
-  ─────────────────────────────────────────────────
+
   The interface must be OPERABLE without a mouse.
-  
-  ✅ DO:  All buttons and links must work with keyboard (Tab, Enter)
-  ✅ DO:  Give users enough time to read and respond (no auto-timeouts)
-  ✅ DO:  Don't use flashing content (can trigger seizures)
-  
+
+  ✅ DO: All buttons and links must work with keyboard (Tab, Enter)
+  ✅ DO: Give users enough time to read and respond (no auto-timeouts)
+  ✅ DO: Don't use flashing content (can trigger seizures)
+
   ❌ DON'T: Make interactive elements that only respond to "hover"
              (hover doesn't exist on touchscreens or keyboard-only!)
 
-  ──────────────────────────────────────────────────
+
 
   U — UNDERSTANDABLE
-  ─────────────────────────────────────────────────
+
   The interface and information must be UNDERSTANDABLE.
-  
-  ✅ DO:  Write clear error messages: "Email must include an @ sign"
+
+  ✅ DO: Write clear error messages: "Email must include an @ sign"
           NOT just "Invalid input" (what's invalid??)
-  ✅ DO:  Organize pages consistently (nav always in same place)
-  ✅ DO:  Use simple language; avoid jargon
-  
+  ✅ DO: Organize pages consistently (nav always in same place)
+  ✅ DO: Use simple language; avoid jargon
+
   ❌ DON'T: Change a page's behavior based on the language setting
              without telling the user
 
-  ──────────────────────────────────────────────────
+
 
   R — ROBUST
-  ─────────────────────────────────────────────────
+
   Content must work across different browsers and assistive tools.
-  
-  ✅ DO:  Use valid, semantic HTML
-  ✅ DO:  Test with screen readers (NVDA, VoiceOver, JAWS)
-  ✅ DO:  Use ARIA attributes where needed
+
+  ✅ DO: Use valid, semantic HTML
+  ✅ DO: Test with screen readers (NVDA, VoiceOver, JAWS)
+  ✅ DO: Use ARIA attributes where needed
 ```
 
 ---
@@ -93,22 +93,22 @@ ARIA (Accessible Rich Internet Applications) attributes add extra context for sc
 
 ```html
 <!-- BAD: Screen reader says "button" — but what does it do? -->
-<button>✕</button>
+<button></button>
 
 <!-- GOOD: Screen reader says "Close dialog" — clear! -->
-<button aria-label="Close dialog">✕</button>
+<button aria-label="Close dialog"></button>
 
 <!-- BAD: Just a div that acts like a checkbox — screen reader ignores it -->
-<div onclick="toggle()" class="checkbox">✓</div>
+<div onclick="toggle()" class="checkbox"></div>
 
 <!-- GOOD: ARIA role tells screen reader this is a checkbox -->
-<div 
+<div
   role="checkbox"
   aria-checked="true"
   tabindex="0"
   onclick="toggle()"
   onkeydown="if(event.key==='Enter') toggle()">
-  ✓
+
 </div>
 
 <!-- Progress bars -->
@@ -129,17 +129,17 @@ Screen readers read ARIA attributes aloud. A blind user listening to your site w
 
 ```
   Contrast Ratio Requirements (WCAG 2.1 Standard):
-  
-  Normal text:    4.5:1 minimum
-  Large text:     3:1 minimum
-  Decorative:     No requirement
+
+  Normal text: 4.5:1 minimum
+  Large text: 3:1 minimum
+  Decorative: No requirement
 
   Examples:
-  
-  White on White:   1:1    — Impossible to read!
+
+  White on White: 1:1 — Impossible to read!
   Light grey on white: 2:1 — Fails WCAG (many people can't read this)
-  Dark grey on white:  7:1 — Excellent!
-  Black on white:   21:1   — Maximum possible contrast
+  Dark grey on white: 7:1 — Excellent!
+  Black on white: 21:1 — Maximum possible contrast
 ```
 
 ---
@@ -167,32 +167,32 @@ These are the **10 Golden Rules** of interface design. Memorize these and your U
 
 ```
   STEP 1: WIREFRAME (Low-Fidelity)
-  ─────────────────────────────────
+
   Sketch the basic layout with boxes and lines.
   No colors. No fonts. Just structure.
-  
-  ┌──────────────────────────────────────┐
-  │  [LOGO]     [Home] [About] [Login]   │ ← Header
-  ├──────────────────────────────────────┤
-  │                                      │
-  │   [BIG HERO IMAGE PLACEHOLDER]       │ ← Hero
-  │   [Lorem ipsum headline text]        │
-  │                                      │
-  ├──────────────────────────────────────┤
-  │ [BOX1]   [BOX2]   [BOX3]            │ ← 3 Feature cards
-  └──────────────────────────────────────┘
-  
+
+
+    [LOGO] [Home] [About] [Login] ← Header
+
+
+     [BIG HERO IMAGE PLACEHOLDER] ← Hero
+     [Lorem ipsum headline text]
+
+
+   [BOX1] [BOX2] [BOX3] ← 3 Feature cards
+
+
   STEP 2: MOCKUP (High-Fidelity)
-  ─────────────────────────────────
+
   Add real colors, fonts, and images using tools like Figma.
-  
+
   STEP 3: PROTOTYPE (Interactive Mockup)
-  ─────────────────────────────────────
+
   Make it "clickable" without writing code.
   Test with real users. Find problems BEFORE coding.
-  
+
   STEP 4: DEVELOPMENT
-  ─────────────────────────────────────
+
   Now write the actual HTML/CSS/JavaScript.
   You won't waste time changing direction because you tested early!
 ```
@@ -208,17 +208,17 @@ These are the **10 Golden Rules** of interface design. Memorize these and your U
 Your app must work on a phone (360px wide), tablet (768px), and desktop (1440px+).
 
 ```
-  PHONE (360px)        TABLET (768px)       DESKTOP (1440px)
-  
-  ┌─────────┐          ┌──────────────┐     ┌───────────────────────┐
-  │  HEADER │          │  HEADER      │     │  HEADER               │
-  ├─────────┤          ├──────────────┤     ├───────────────────────┤
-  │  Main   │          │ Side │ Main  │     │ Side │ Main Content    │
-  │Content  │          │ bar  │Content│     │ bar  │ (wider)         │
-  │ (full   │          │      │       │     │      │                 │
-  │  width) │          │      │       │     │      │                 │
-  └─────────┘          └──────────────┘     └───────────────────────┘
-  Single column        Two columns          Two columns, wider
+  PHONE (360px) TABLET (768px) DESKTOP (1440px)
+
+
+    HEADER HEADER HEADER
+
+    Main Side Main Side Main Content
+  Content bar Content bar (wider)
+   (full
+    width)
+
+  Single column Two columns Two columns, wider
 ```
 
 This is achieved with CSS **Media Queries** (as you learned in the CSS section).
