@@ -18,7 +18,7 @@ let expandedCategories = {}; // {catIndex: true/false}
 let flatTopics = []; // [{catIndex, topIndex, name, category}]
 
 // ---- Progress Storage ----
-const PROGRESS_KEY = 'dsa_handbook_progress';
+const PROGRESS_KEY = 'mad1_handbook_progress';
 
 function getProgress() {
     try {
@@ -522,8 +522,6 @@ function renderContent(topic, catIndex, topIndex) {
     const theoryContainer = document.getElementById('theory-content-area');
     const isDone = isCompleted(catIndex, topIndex);
 
-    // Build complexity pills (Removed for MAD Handbook as it's not a DSA course)
-    let complexityHtml = '';
 
 
     let theory = topic.theory || '*Theory content placeholder*';
@@ -537,6 +535,16 @@ function renderContent(topic, catIndex, topIndex) {
         return `<div class="callout callout-${type.toLowerCase()}">
             <div class="callout-title"><i data-lucide="${iconMap[type]}"></i>${type}</div>
             <div class="theory-content-inner">${marked.parse(cleanedContent)}</div>
+        </div>`;
+    });
+
+    // Process Custom [TAG]...[/CALLOUT] style
+    const customCalloutRegex = /\[(WARNING|TIP|NOTE|IMPORTANT|CAUTION)\]([\s\S]*?)\[\/CALLOUT\]/gm;
+    theory = theory.replace(customCalloutRegex, (match, type, content) => {
+        const iconMap = { 'NOTE': 'info', 'TIP': 'lightbulb', 'IMPORTANT': 'alert-circle', 'WARNING': 'alert-triangle', 'CAUTION': 'zap' };
+        return `<div class="callout callout-${type.toLowerCase()}">
+            <div class="callout-title"><i data-lucide="${iconMap[type]}"></i>${type}</div>
+            <div class="theory-content-inner">${marked.parse(content.trim())}</div>
         </div>`;
     });
 
@@ -573,7 +581,6 @@ function renderContent(topic, catIndex, topIndex) {
         ${navHtml}
         <div class="theory-header">
             <h1 class="theory-title">${topic.name}</h1>
-            ${complexityHtml}
         </div>
         <div class="theory-content">
             ${marked.parse(theory)}
@@ -794,7 +801,7 @@ function setupKeyboardShortcuts() {
         if (isTyping) return;
 
         switch (e.key) {
-            // Left/Right arrow — Previous/Next algorithm
+            // Left/Right arrow — Navigate to Previous/Next topic
             case 'ArrowLeft': {
                 e.preventDefault();
                 const idx = getCurrentFlatIndex();

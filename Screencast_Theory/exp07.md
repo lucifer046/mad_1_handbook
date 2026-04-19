@@ -1,3 +1,22 @@
+## Project Structure
+```text
+experiment-flask-fullstack-setup/
+├── application
+│   ├── __init__.py
+│   ├── config.py
+│   ├── controllers.py
+│   ├── database.py
+│   └── models.py
+├── local_run.sh
+├── local_setup.sh
+├── main.py
+└── templates
+    ├── articles.html
+    └── articles_by_author.html
+```
+
+---
+
 # Experiment 07: Flask Fullstack Setup
 This experiment demonstrates a professional project structure using the **Application Factory** pattern. This separates configuration, database initialization, and route handling into distinct modules.
 

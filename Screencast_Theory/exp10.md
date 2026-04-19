@@ -1,3 +1,23 @@
+## Project Structure
+```text
+experiment-fts/
+├── application
+│   ├── __init__.py
+│   ├── config.py
+│   ├── controllers.py
+│   ├── database.py
+│   └── models.py
+├── local_run.sh
+├── local_setup.sh
+├── main.py
+└── templates
+    ├── articles.html
+    ├── articles_by_author.html
+    └── results.html
+```
+
+---
+
 # Experiment 10: SQLite Full-Text Search (FTS)
 This experiment demonstrates how to implement high-performance search using SQLite's **Full-Text Search (FTS)** extension. This is much faster and more accurate than using standard `LIKE` queries.
 

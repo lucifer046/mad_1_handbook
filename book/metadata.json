@@ -1,75 +1,192 @@
 [
   {
-    "category": "Architecture & Fundamentals",
+    "category": "Basic terminologies of Web",
     "topics": [
-      { "name": "Overview", "description": "Introduction to MAD.", "complexities": { "best": "N/A", "avg": "N/A", "worst": "N/A", "space": "N/A" } },
-      { "name": "Apps Arch", "description": "Apps and Architectures", "complexities": { "best": "N/A", "avg": "N/A", "worst": "N/A", "space": "N/A" } }
+      {
+        "name": "Overview",
+        "description": "Introduction to Modern Web App Development."
+      },
+      {
+        "name": "Apps Arch",
+        "description": "Web Applications and their Architectures."
+      },
+      {
+        "name": "Web Fundamentals",
+        "description": "Core protocols, DNS, and Networking."
+      },
+      {
+        "name": "Info Rep",
+        "description": "How information is represented on the web."
+      }
     ]
   },
   {
-    "category": "Web Infrastructure",
+    "category": "Webpages written in HTML and CSS",
     "topics": [
-      { "name": "Web Fundamentals", "description": "Core protocols and DNS.", "complexities": { "best": "N/A", "avg": "N/A", "worst": "N/A", "space": "N/A" } },
-      { "name": "Info Rep", "description": "Information representation.", "complexities": { "best": "N/A", "avg": "N/A", "worst": "N/A", "space": "N/A" } }
+      {
+        "name": "HTML",
+        "description": "Structure of the web and the DOM tree."
+      },
+      {
+        "name": "CSS",
+        "description": "Styling, Layouts, and Design Systems."
+      },
+      {
+        "name": "Exp 01: Basics",
+        "description": "Practical HTML & CSS Lab.",
+        "id": "exp01"
+      }
     ]
   },
   {
-    "category": "Frontend Core",
+    "category": "Presentation layer - View",
     "topics": [
-      { "name": "HTML", "description": "HTML & DOM.", "complexities": { "best": "N/A", "avg": "N/A", "worst": "N/A", "space": "N/A" } },
-      { "name": "CSS", "description": "CSS Design System.", "complexities": { "best": "N/A", "avg": "N/A", "worst": "N/A", "space": "N/A" } }
+      {
+        "name": "UI Design",
+        "description": "Accessibility, UX, and Visual Design."
+      },
+      {
+        "name": "Exp 02: Templates",
+        "description": "Jinja2 Dynamic Rendering Lab.",
+        "id": "exp02"
+      }
     ]
   },
   {
-    "category": "Advanced Frontend",
+    "category": "Models - Introduction to databases",
     "topics": [
-      { "name": "UI Design", "description": "Accessibility & UI Design.", "complexities": { "best": "N/A", "avg": "N/A", "worst": "N/A", "space": "N/A" } },
-      { "name": "Frontend", "description": "Frontend Mechanisms.", "complexities": { "best": "N/A", "avg": "N/A", "worst": "N/A", "space": "N/A" } },
-      { "name": "Beyond HTML", "description": "Modern frontend trends.", "complexities": { "best": "N/A", "avg": "N/A", "worst": "N/A", "space": "N/A" } }
+      {
+        "name": "SQL",
+        "description": "Relational Databases & SQL Queries."
+      },
+      {
+        "name": "Storage",
+        "description": "Persistent Storage & File Systems."
+      },
+      {
+        "name": "Exp 04: SQLite DB",
+        "description": "Raw SQLite Table Setup.",
+        "id": "exp04"
+      },
+      {
+        "name": "Exp 05: SQLAlchemy",
+        "description": "ORM Concepts & Relationships.",
+        "id": "exp05"
+      }
     ]
   },
   {
-    "category": "Backend Development",
+    "category": "Controllers - Business logic",
     "topics": [
-      { "name": "Flask", "description": "Flask & Routing.", "complexities": { "best": "N/A", "avg": "N/A", "worst": "N/A", "space": "N/A" } },
-      { "name": "API", "description": "API Design & REST.", "complexities": { "best": "N/A", "avg": "N/A", "worst": "N/A", "space": "N/A" } }
+      {
+        "name": "MVC",
+        "description": "Model-View-Controller Design Pattern."
+      },
+      {
+        "name": "Exp 07: Fullstack",
+        "description": "Integrated MVC Setup.",
+        "id": "exp07"
+      }
     ]
   },
   {
-    "category": "Data & Backend Principles",
+    "category": "APIs and REST APIs",
     "topics": [
-      { "name": "SQL", "description": "SQL & Databases.", "complexities": { "best": "N/A", "avg": "N/A", "worst": "N/A", "space": "N/A" } },
-      { "name": "Storage", "description": "Persistent Storage.", "complexities": { "best": "N/A", "avg": "N/A", "worst": "N/A", "space": "N/A" } },
-      { "name": "MVC", "description": "MVC Architecture.", "complexities": { "best": "N/A", "avg": "N/A", "worst": "N/A", "space": "N/A" } },
-      { "name": "Backend", "description": "Backend Systems.", "complexities": { "best": "N/A", "avg": "N/A", "worst": "N/A", "space": "N/A" } }
+      {
+        "name": "API",
+        "description": "RESTful Principles & Endpoint Design."
+      },
+      {
+        "name": "Exp 08: Restful",
+        "description": "Flask-RESTful Implementation.",
+        "id": "exp08"
+      }
     ]
   },
   {
-    "category": "Security & Operations",
+    "category": "Backend Systems",
     "topics": [
-      { "name": "Security", "description": "Security & Auth.", "complexities": { "best": "N/A", "avg": "N/A", "worst": "N/A", "space": "N/A" } }
+      {
+        "name": "Flask",
+        "description": "The Flask Framework & Request Lifecycle."
+      },
+      {
+        "name": "Backend",
+        "description": "Backend Architectural Principles."
+      },
+      {
+        "name": "Exp 03: Flask App",
+        "description": "Basic App Lifecycle Lab.",
+        "id": "exp03"
+      },
+      {
+        "name": "Exp 06: Flask-SQLAlchemy",
+        "description": "Database Integration Lab.",
+        "id": "exp06"
+      },
+      {
+        "name": "Exp 09: Logging",
+        "description": "Error Tracking & Monitoring.",
+        "id": "exp09"
+      }
     ]
   },
   {
-    "category": "Lifecycle & DevOps",
+    "category": "Application Frontend",
     "topics": [
-      { "name": "Testing", "description": "Software Testing.", "complexities": { "best": "N/A", "avg": "N/A", "worst": "N/A", "space": "N/A" } },
-      { "name": "Deployment", "description": "Deployment & DevOps.", "complexities": { "best": "N/A", "avg": "N/A", "worst": "N/A", "space": "N/A" } }
+      {
+        "name": "Frontend",
+        "description": "Frontend Mechanisms & State Management."
+      },
+      {
+        "name": "Exp 10: FTS",
+        "description": "Full-Text Search Frontend Integration.",
+        "id": "exp10"
+      }
     ]
   },
   {
-    "category": "Practical Experiments",
+    "category": "Application Security",
     "topics": [
-      { "name": "Exp 01: Basics", "description": "HTML & CSS Basics", "id": "exp01" },
-      { "name": "Exp 02: Templates", "description": "Jinja2 Templates", "id": "exp02" },
-      { "name": "Exp 03: Flask App", "description": "Simple Flask Setup", "id": "exp03" },
-      { "name": "Exp 04: SQLite DB", "description": "Raw SQLite File", "id": "exp04" },
-      { "name": "Exp 05: SQLAlchemy", "description": "ORM Basics", "id": "exp05" },
-      { "name": "Exp 06: Flask-SQLAlchemy", "description": "Flask ORM Integration", "id": "exp06" },
-      { "name": "Exp 07: Fullstack", "description": "Flask Fullstack Setup", "id": "exp07" },
-      { "name": "Exp 08: Restful", "description": "Flask-RESTful API", "id": "exp08" },
-      { "name": "Exp 09: Logging", "description": "Flask App Logging", "id": "exp09" },
-      { "name": "Exp 10: FTS", "description": "Full-Text Search", "id": "exp10" }
+      {
+        "name": "Security",
+        "description": "Web Security Threats & Defenses."
+      },
+      {
+        "name": "Session Auth",
+        "description": "Manual Session & Cookie Management."
+      },
+      {
+        "name": "Flask Login",
+        "description": "Standard Flask Authentication."
+      }
+    ]
+  },
+  {
+    "category": "Testing of Web Applications",
+    "topics": [
+      {
+        "name": "Testing",
+        "description": "Unit, Integration, and System Testing."
+      }
+    ]
+  },
+  {
+    "category": "HTML Evolution and Beyond HTML",
+    "topics": [
+      {
+        "name": "Beyond HTML",
+        "description": "Modern Trends & PWA technology."
+      }
+    ]
+  },
+  {
+    "category": "Application Deployment",
+    "topics": [
+      {
+        "name": "Deployment",
+        "description": "CI/CD, Clouds, and Containerization."
+      }
     ]
   }
 ]

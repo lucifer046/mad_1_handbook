@@ -1,3 +1,11 @@
+## Project Structure
+```text
+experiment-sqlitedb/
+└── schema.sql
+```
+
+---
+
 # Experiment 04: SQLite Database
 This experiment covers the creation of a relational database structure using **SQLite**.
 

@@ -1,3 +1,14 @@
+## Project Structure
+```text
+experiment-simple-flask-app/
+├── application.py
+└── templates
+    ├── display_details.html
+    └── get_details.html
+```
+
+---
+
 # Experiment 03: Simple Flask App
 This experiment introduces the **Flask** web framework and demonstrates the fundamental pattern of handling web requests.
 

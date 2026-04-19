@@ -1,3 +1,12 @@
+## Project Structure
+```text
+experiment-templates/
+├── app.py
+└── janapith.html
+```
+
+---
+
 # Experiment 02: Jinja2 Templates
 This experiment demonstrates how to separate data from presentation using the **Jinja2** templating engine.
 

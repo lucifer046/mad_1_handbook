@@ -1,3 +1,14 @@
+## Project Structure
+```text
+experiment-flask-sqlalchemy/
+├── main.py
+└── templates
+    ├── articles.html
+    └── articles_by_author.html
+```
+
+---
+
 # Experiment 06: Flask-SQLAlchemy
 This experiment moves from pure SQLAlchemy to `Flask-SQLAlchemy`, which integrates the ORM directly into the Flask application lifecycle.
 

@@ -1,3 +1,14 @@
+## Project Structure
+```text
+experiment1/
+├── bootstrap_test.html
+├── index.html
+├── jnanpith.html
+└── style.css
+```
+
+---
+
 # Experiment 01: Frontend Basics
 This experiment covers the foundational structure of a web page using HTML and styling with CSS.
 

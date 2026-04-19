@@ -1,3 +1,24 @@
+## Project Structure
+```text
+experiment-flask-restful/
+├── application
+│   ├── __init__.py
+│   ├── api.py
+│   ├── config.py
+│   ├── controllers.py
+│   ├── database.py
+│   ├── models.py
+│   └── validation.py
+├── local_run.sh
+├── local_setup.sh
+├── main.py
+└── templates
+    ├── articles.html
+    └── articles_by_author.html
+```
+
+---
+
 # Experiment 08: Flask-RESTful
 This experiment introduces **REST API** development using the `Flask-RESTful` extension. This allows us to create clean, standard-compliant APIs that return JSON instead of HTML.
 

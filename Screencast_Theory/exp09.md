@@ -1,3 +1,22 @@
+## Project Structure
+```text
+experiment-flask-setup-logging/
+├── application
+│   ├── __init__.py
+│   ├── config.py
+│   ├── controllers.py
+│   ├── database.py
+│   └── models.py
+├── local_run.sh
+├── local_setup.sh
+├── main.py
+└── templates
+    ├── articles.html
+    └── articles_by_author.html
+```
+
+---
+
 # Experiment 09: Flask Logging
 This experiment focuses on **Observability**. We set up structured logging to track exactly what happens inside our application, which is essential for debugging in production environments.
 

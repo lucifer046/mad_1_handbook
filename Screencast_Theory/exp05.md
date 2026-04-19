@@ -1,3 +1,11 @@
+## Project Structure
+```text
+experiment-sqlalchemy/
+└── main.py
+```
+
+---
+
 # Experiment 05: SQLAlchemy Basics
 This experiment demonstrates the core principles of Object-Relational Mapping (ORM) using SQLAlchemy. Instead of writing raw SQL, we use Python classes to interact with the database.
 
