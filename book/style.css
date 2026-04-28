@@ -346,7 +346,7 @@ header {
     flex: 1;
     overflow: hidden;
     padding: 2rem 4rem 1.5rem 4rem; /* Reduced bottom padding to use half height for copyright msg */
-    gap: 4rem;
+    gap: 0;
     opacity: 0;
     transform: translateY(10px);
     transition: var(--transition);
@@ -359,7 +359,8 @@ header {
 
 /* Theory Pane */
 .theory-pane {
-    flex: 1.2;
+    flex: none;
+    width: var(--theory-pane-width, 54%);
     overflow-y: auto;
     padding-right: 2rem;
     padding-left: 3rem; /* Expanded to fit 40px blur */
@@ -691,11 +692,12 @@ header {
 
 /* Code Pane & Sync Scrolling */
 .code-pane {
-    flex: 1;
+    flex: 1;           /* Takes the remaining space after theory-pane + divider */
     display: flex;
     flex-direction: column;
     position: relative;
-    max-width: 48%;
+    min-width: 20%;
+    max-width: 75%;
 }
 
 .code-box-wrapper {
@@ -721,6 +723,8 @@ header {
     padding: 1rem 1.5rem;
     background: rgba(0,0,0,0.05);
     border-bottom: 1px solid var(--border-light);
+    border-top-left-radius: 1.25rem;
+    border-top-right-radius: 1.25rem;
 }
 
 .code-actions {
@@ -1594,4 +1598,66 @@ pre {
 
 .theory-content-inner p:last-child {
     margin-bottom: 0;
+}
+
+/* =========================================
+   PANE DIVIDER — Draggable Resizer
+   ========================================= */
+.pane-divider {
+    flex: none;
+    width: 12px;
+    cursor: col-resize;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 100;
+    transition: background 0.2s ease;
+    border-radius: 4px;
+    margin: 0 0.25rem;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.pane-divider:hover,
+.pane-divider.dragging {
+    background: rgba(30, 90, 143, 0.08);
+}
+
+.pane-divider-handle {
+    width: 4px;
+    height: 40px;
+    background: rgba(100, 116, 139, 0.3);
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    pointer-events: none;
+}
+
+.pane-divider:hover .pane-divider-handle,
+.pane-divider.dragging .pane-divider-handle {
+    height: 64px;
+    background: rgba(30, 90, 143, 0.6);
+    box-shadow: 0 0 10px rgba(30, 90, 143, 0.25);
+}
+
+/* Prevent text selection & cursor flash across entire layout during drag */
+.book-layout.is-resizing {
+    cursor: col-resize !important;
+    user-select: none;
+    -webkit-user-select: none;
+    transition: none !important;
+}
+
+.book-layout.is-resizing .theory-pane,
+.book-layout.is-resizing .code-pane,
+.book-layout.is-resizing .pane-divider {
+    transition: none !important;
+}
+
+.book-layout.is-resizing .theory-pane {
+    pointer-events: none;
+}
+
+.book-layout.is-resizing .code-pane {
+    pointer-events: none;
 }

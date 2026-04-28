@@ -1035,6 +1035,7 @@ function setupSwipeGestures() {
 document.addEventListener('DOMContentLoaded', () => {
     init();
     setupCodeActions();
+    setupPaneDivider();
 });
 // =========================================
 //  X-RAY TOOLTIP MANAGER (Smart Positioning)
@@ -1085,5 +1086,84 @@ function setupXRayTooltips() {
         if (e.target.closest('.xray-var')) {
             tooltipEl.classList.remove('visible');
         }
+    });
+}
+
+// =========================================
+//  PANE DIVIDER — Drag to Resize
+// =========================================
+function setupPaneDivider() {
+    const divider    = document.getElementById('pane-divider');
+    const layout     = document.getElementById('book-layout');
+    const theoryPane = document.querySelector('.theory-pane');
+    if (!divider || !layout || !theoryPane) return;
+
+    // Restore saved width from previous session
+    const STORAGE_KEY = 'mad1_theory_pane_pct';
+    const savedPct = parseFloat(localStorage.getItem(STORAGE_KEY));
+    if (!isNaN(savedPct) && savedPct >= 15 && savedPct <= 80) {
+        layout.style.setProperty('--theory-pane-width', `${savedPct}%`);
+    }
+
+    let isDragging = false;
+    let startX     = 0;
+    let startPct   = 0;
+
+    divider.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        isDragging = true;
+
+        // Calculate the current theory pane width as a percentage of layout content width
+        const layoutRect = layout.getBoundingClientRect();
+        const style = window.getComputedStyle(layout);
+        const paddingLeft = parseFloat(style.paddingLeft);
+        const paddingRight = parseFloat(style.paddingRight);
+        const contentWidth = layoutRect.width - paddingLeft - paddingRight;
+
+        startX   = e.clientX;
+        startPct = (theoryPane.getBoundingClientRect().width / contentWidth) * 100;
+
+        divider.classList.add('dragging');
+        layout.classList.add('is-resizing');
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+
+        const layoutRect = layout.getBoundingClientRect();
+        const style = window.getComputedStyle(layout);
+        const paddingLeft = parseFloat(style.paddingLeft);
+        const paddingRight = parseFloat(style.paddingRight);
+        const contentWidth = layoutRect.width - paddingLeft - paddingRight;
+
+        const dx         = e.clientX - startX;
+        const deltaPct   = (dx / contentWidth) * 100;
+        let   newPct     = startPct + deltaPct;
+
+        // Clamp: theory pane must be 15%–80% of layout width
+        newPct = Math.max(15, Math.min(80, newPct));
+
+        layout.style.setProperty('--theory-pane-width', `${newPct}%`);
+    });
+
+    document.addEventListener('mouseup', () => {
+        if (!isDragging) return;
+        isDragging = false;
+
+        divider.classList.remove('dragging');
+        layout.classList.remove('is-resizing');
+
+        // Persist the user's chosen split
+        const finalPct = parseFloat(
+            getComputedStyle(layout).getPropertyValue('--theory-pane-width') || '54'
+        );
+        localStorage.setItem(STORAGE_KEY, finalPct);
+    });
+
+    // Double-click to reset to the default 54/46 split
+    divider.addEventListener('dblclick', () => {
+        layout.style.setProperty('--theory-pane-width', '54%');
+        localStorage.removeItem(STORAGE_KEY);
+        showToast('Layout reset to default', '↔');
     });
 }

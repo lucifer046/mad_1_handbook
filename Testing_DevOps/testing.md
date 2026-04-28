@@ -1,239 +1,389 @@
-# Software Testing
+# Testing with Pytest
 
 ## Why Do We Test?
 
-Imagine you built a calculator app. You show it to your teacher and she types `5 + 3`. The app shows `9`. That's a bug!
+Imagine you built a student portal. It works fine on your laptop. You deploy it. A student types in 100 marks and the app crashes because you forgot to handle numbers above 99.
 
-Now imagine this calculator controls the autopilot of an airplane.
-
-**Testing** is how we catch these bugs before our users do. It's also how we make sure that when we fix one bug, we don't accidentally create another.
+**Testing** is how we catch these bugs *before* users do. It's also how we make sure that when we fix one bug, we don't accidentally break three others.
 
 ---
 
-## The Testing Pyramid: From Fast to Slow
+## What is Pytest?
 
-Think of testing like checking your homework:
-
-```
-
-                            ACCEPTANCE TESTING ← Teacher checks
-                           (Slow, Expensive, Few) your final work
-                        /\
-                       / \
-                      / \
-                     / INTEGRATION TESTING \
-                    / (Medium speed, some) \
-                   / \
-                  / \
-                 / \
-                / UNIT TESTING \
-               / (Fast, Cheap, Many — run always) \
-              / \
-```
-
-### Level 1: Unit Testing (The Foundation)
-
-Test one small, isolated piece of code — usually one function.
+**Pytest** is a Python module (testing framework) used to write and run automated tests. It is the most popular testing tool in Python because of three key advantages:
 
 ```
-Testing: "Does the is_passing() function work correctly?"
+   Pytest Advantages:
 
-NOT testing: Does the database connection work?
-NOT testing: Does the login form look right?
-NOT testing: Does the whole app flow correctly?
+   1. Auto-Discovery  → Automatically finds and runs test files,
+                        classes, and functions — no configuration
+                        needed.
 
-Just this ONE function.
+   2. Simple Syntax   → Uses plain Python assert statements.
+                        No special syntax to learn.
+
+   3. Parametrize     → Run the same test with many sets of input
+                        data using a single decorator.
 ```
+
+Install it with:
+```bash
+pip install pytest
+```
+
+---
+
+## The Golden Rules: Naming Conventions
+
+Pytest's auto-discovery relies entirely on naming. If you don't follow these rules, Pytest won't find your tests.
+
+```
+   Rule 1: FILES must start with "test_" or end with "_test"
+           Good:  test_marks.py   marks_test.py
+           Bad:   marks.py        check_marks.py
+
+   Rule 2: FUNCTIONS must start with "test_"
+           Good:  def test_case1():
+           Bad:   def case1():    def check_case():
+
+   Rule 3: CLASSES must start with "Test"
+           Good:  class TestMarks:
+           Bad:   class Marks:    class marks_test:
+```
+
+---
+
+## The `assert` Keyword
+
+The `assert` keyword is the fundamental building block of every test. It checks if a condition is `True`. If it's `False`, Python raises an `AssertionError` and the test fails.
 
 ```python
-# The function we want to test (in app.py)
-def is_passing(marks):
-    """Returns True if marks >= 40, otherwise False."""
-    return marks >= 40
+# assert <condition>, "Optional error message"
+
+assert 2 + 2 == 4          # PASSES silently
+assert 2 + 2 == 5          # FAILS with AssertionError
+assert "hello" in "hello world"  # PASSES
+assert [] == []             # PASSES
 ```
 
+[NOTE]
+`assert` is just a Python keyword — it's not special to Pytest. But Pytest intercepts the `AssertionError` and produces a clean, readable failure report with the actual vs. expected values.
+[/CALLOUT]
+
+---
+
+## Running Pytest: CLI Commands
+
+```bash
+# Run all tests in the current directory (auto-discovery)
+pytest
+
+# Run with verbose mode — see each test name and PASSED/FAILED
+pytest -v
+
+# Run only tests whose name contains a keyword
+pytest -k "increment"
+
+# Run tests in a specific file
+pytest test_compute.py
+
+# Run a specific function in a specific file
+pytest test_compute.py::test_increment
+```
+
+---
+
+## Part 1: Testing Logic (Functions)
+
+### The Application Code
+
+This is a simple `compute` function we want to test — it either increments or decrements a value.
+
 ```python
-# The test file (in test_app.py)
+# compute.py  (the code we are testing)
+
+def compute(value, action):
+    """
+    Performs an arithmetic operation on a value.
+
+    Args:
+        value (int): The starting number.
+        action (str): Either 'increment' or 'decrement'.
+
+    Returns:
+        int: The result of the operation.
+
+    Raises:
+        ValueError: If an unknown action is provided.
+    """
+    if action == "increment":
+        return value + 1
+    elif action == "decrement":
+        return value - 1
+    else:
+        raise ValueError(f"Unknown action: {action}")
+```
+
+### The Test File
+
+```python
+# test_compute.py  (the test file — note the "test_" prefix)
+
 import pytest
-from app import is_passing
+from compute import compute
 
-# Each test function starts with "test_"
-def test_passing_marks():
-    """Test that a student with 85 marks is considered passing."""
-    assert is_passing(85) == True # assert = "I am claiming this is true"
+# --- Basic Tests ---
 
-def test_failing_marks():
-    """Test that a student with 35 marks is considered failing."""
-    assert is_passing(35) == False
+def test_increment():
+    """Verify that increment adds 1 to the value."""
+    result = compute(5, "increment")
+    assert result == 6
 
-def test_exact_boundary():
-    """Test the exact boundary: 40 marks = passing."""
-    assert is_passing(40) == True
+def test_decrement():
+    """Verify that decrement subtracts 1 from the value."""
+    result = compute(10, "decrement")
+    assert result == 9
 
-def test_zero_marks():
-    """Edge case: 0 marks should fail."""
-    assert is_passing(0) == False
+def test_increment_from_zero():
+    """Edge case: incrementing zero should give 1."""
+    assert compute(0, "increment") == 1
+
+def test_invalid_action_raises_error():
+    """An unknown action should raise a ValueError."""
+    with pytest.raises(ValueError):
+        compute(5, "multiply")  # Should throw ValueError
 ```
 
-Run with: `pytest test_app.py`
-
-### Level 2: Integration Testing
-
-Test that **multiple components** work correctly when connected together.
+Run with `pytest -v` and you'll see:
 
 ```
-Testing: "Does the /login route work end-to-end?"
-        → Does it read from the request?
-        → Does it query the database correctly?
-        → Does it redirect on success?
-        → Does it return an error on failure?
-```
-
-### Level 3: Acceptance Testing
-
-The entire app is tested by a real user or client to verify it meets requirements. The slowest and most expensive.
-
----
-
-## Testing Methodologies
-
-### Black-Box Testing
-
-You test the function **without looking at the code**. You only know: "What goes in? What should come out?"
-
-```
-  Black Box Test:
-
-    Input: marks = 85
-
-  85 > ??? > Expected Output: True
-          (code
-           hidden)
-
-
-  You don't care HOW it calculates. Just that it returns True.
-```
-
-### White-Box Testing
-
-You test the function **with full access to the code**. You verify every possible code path is covered.
-
-```python
-def classify_student(marks):
-    if marks >= 80: # ← Path A
-        return "Distinction"
-    elif marks >= 40: # ← Path B
-        return "Pass"
-    else: # ← Path C
-        return "Fail"
-```
-
-For 100% coverage, you MUST test all 3 paths (A, B, and C).
-
-### Regression Testing
-
-After you fix a bug or add a new feature, you run ALL your tests again to make sure nothing broke.
-
-```
-  Old Code (works) → Add new feature → Bug appears in OLD feature!
-                                                            ↑
-                                               This is a REGRESSION.
-                                               Run ALL tests to catch it.
+test_compute.py::test_increment              PASSED
+test_compute.py::test_decrement              PASSED
+test_compute.py::test_increment_from_zero   PASSED
+test_compute.py::test_invalid_action_raises_error PASSED
 ```
 
 ---
 
-## Writing Tests with pytest
+## Part 2: Pytest Markers
 
-**pytest** is the most popular Python testing library:
+**Markers** are decorators (`@pytest.mark.<name>`) that attach metadata or special behavior to a test function.
+
+### Built-in Marker 1: `@pytest.mark.skip`
+
+Skips a test unconditionally. Use this when a feature is not yet implemented.
 
 ```python
-import pytest
-from app import StudentModel
+@pytest.mark.skip(reason="Feature not yet implemented")
+def test_multiply():
+    result = compute(5, "multiply")
+    assert result == 25
+```
 
-# FIXTURE: A function that sets up data for tests
-# (Like preparing ingredients before cooking)
-@pytest.fixture
-def sample_model():
-    """Creates a fresh StudentModel with test data before each test."""
-    model = StudentModel()
-    model.add_student("Alice", 85)
-    model.add_student("Bob", 35)
-    return model
+Output: `test_compute.py::test_multiply SKIPPED`
 
-# Tests that USE the fixture (pytest injects it automatically)
-def test_count_students(sample_model):
-    assert len(sample_model.get_all_students()) == 2
+### Built-in Marker 2: `@pytest.mark.skipif`
 
-def test_alice_is_passing(sample_model):
-    alice = sample_model.get_by_name("Alice")
-    assert alice["marks"] >= 40
+Skips a test only if a condition is met. Great for OS-specific or environment-specific tests.
 
-def test_bob_is_failing(sample_model):
-    bob = sample_model.get_by_name("Bob")
-    assert bob["marks"] < 40
+```python
+import sys
 
-# PARAMETRIZE: Run the same test with different inputs
-@pytest.mark.parametrize("marks, expected", [
-    (100, True), # test case 1
-    (85, True), # test case 2
-    (40, True), # test case 3 — boundary
-    (39, False), # test case 4 — just below boundary
-    (0, False), # test case 5
+@pytest.mark.skipif(sys.platform == "win32", reason="Does not run on Windows")
+def test_linux_only_feature():
+    # This test will be SKIPPED on Windows, but RUN on Linux/Mac
+    assert True
+```
+
+### Built-in Marker 3: `@pytest.mark.parametrize`
+
+The most powerful marker. Runs the **same test function** multiple times with different input data. This replaces writing 5 separate test functions for 5 cases.
+
+```python
+@pytest.mark.parametrize("value, action, expected", [
+    (5,  "increment", 6),   # case 1
+    (10, "increment", 11),  # case 2
+    (10, "decrement", 9),   # case 3
+    (0,  "decrement", -1),  # case 4 — edge case
+    (99, "increment", 100), # case 5
 ])
-def test_passing_boundary(marks, expected):
-    from app import is_passing
-    assert is_passing(marks) == expected
-    # This runs 5 separate tests from one function!
+def test_compute_parametrized(value, action, expected):
+    assert compute(value, action) == expected
 ```
+
+This generates 5 separate test cases from one function. Output:
+
+```
+test_compute.py::test_compute_parametrized[5-increment-6]    PASSED
+test_compute.py::test_compute_parametrized[10-increment-11]  PASSED
+test_compute.py::test_compute_parametrized[10-decrement-9]   PASSED
+test_compute.py::test_compute_parametrized[0-decrement--1]   PASSED
+test_compute.py::test_compute_parametrized[99-increment-100] PASSED
+```
+
+### Custom (User-Defined) Markers
+
+You can create your own markers to group tests. Common groups are `smoke`, `regression`, and `slow`.
+
+```python
+# First, register your custom markers in pytest.ini:
+# [pytest]
+# markers =
+#     smoke: Critical path tests that verify the app starts correctly.
+#     regression: Tests that guard against previously fixed bugs.
+#     slow: Tests that take a long time (e.g., database queries).
+
+@pytest.mark.smoke
+def test_app_starts():
+    assert compute(1, "increment") == 2
+
+@pytest.mark.regression
+def test_known_bug_fix():
+    # Bug report: compute(0, "decrement") used to return 0, not -1
+    assert compute(0, "decrement") == -1
+
+@pytest.mark.slow
+def test_large_computation():
+    for i in range(100000):
+        compute(i, "increment")
+```
+
+Run only the `smoke` tests: `pytest -m smoke`
 
 ---
 
-## Test-Driven Development (TDD): Tests First!
+## Part 3: Testing Flask API Routes
 
-TDD flips the order — you write the **test BEFORE the code**:
+To test Flask routes, we use the `requests` library to send real HTTP requests to the running application.
 
-```
-  STEP 1 (RED): Write a test for a feature that doesn't exist yet.
-                    Run it → It FAILS (of course, the code isn't written!)
-
-  STEP 2 (GREEN): Write the MINIMUM code needed to make that test pass.
-                    Run it → It PASSES.
-
-  STEP 3 (REFACTOR):Clean up the code without breaking any tests.
-                    Run all tests → Still PASSING.
-
-  Repeat for the next feature.
-```
+### The Flask Application
 
 ```python
-# STEP 1 (RED): Write the test first
-def test_calculate_grade():
-    assert calculate_grade(95) == "A+" # calculate_grade doesn't exist yet!
-    assert calculate_grade(85) == "A"
-    assert calculate_grade(70) == "B"
+# app.py  (the Flask app we want to test)
 
-# → Run: FAILS with "NameError: calculate_grade not defined" ← That's okay!
+from flask import Flask, request, jsonify
 
-# STEP 2 (GREEN): Write the code to make it pass
-def calculate_grade(marks):
-    if marks >= 90: return "A+"
-    if marks >= 80: return "A"
-    if marks >= 70: return "B"
-    return "C"
+app = Flask(__name__)
 
-# → Run: ALL PASS
+students = []  # In-memory store (for demo purposes)
 
-# STEP 3 (REFACTOR): The code is clean, nothing to change here.
+@app.route('/students', methods=['GET'])
+def get_students():
+    """Returns all students. Status: 200 OK"""
+    return jsonify(students), 200
+
+@app.route('/students', methods=['POST'])
+def add_student():
+    """Adds a new student. Status: 201 Created"""
+    data = request.get_json()
+    students.append(data)
+    return jsonify({"message": "Student added", "student": data}), 201
+
+if __name__ == '__main__':
+    app.run(debug=True, port=5000)
+```
+
+### The API Test File
+
+```python
+# test_api.py  (tests for the Flask API routes)
+
+import requests
+
+BASE_URL = "http://127.0.0.1:5000"
+
+# IMPORTANT: Start the Flask app manually before running these tests.
+# In a separate terminal: python app.py
+
+def test_get_students_status_code():
+    """The GET /students endpoint should return 200 OK."""
+    response = requests.get(f"{BASE_URL}/students")
+
+    # Check the HTTP status code
+    assert response.status_code == 200
+
+def test_get_students_returns_list():
+    """The GET /students endpoint should return a JSON list."""
+    response = requests.get(f"{BASE_URL}/students")
+    data = response.json()
+
+    assert isinstance(data, list)  # Must be a list, not a dict
+
+def test_post_student_status_code():
+    """The POST /students endpoint should return 201 Created."""
+    new_student = {"name": "Alice", "marks": 85}
+
+    response = requests.post(
+        f"{BASE_URL}/students",
+        json=new_student  # Sends data as JSON body with Content-Type: application/json
+    )
+
+    assert response.status_code == 201
+
+def test_post_student_response_body():
+    """After POSTing, the response body should confirm the student was added."""
+    new_student = {"name": "Bob", "marks": 70}
+
+    response = requests.post(f"{BASE_URL}/students", json=new_student)
+    body = response.json()
+
+    assert "message" in body
+    assert body["student"]["name"] == "Bob"
 ```
 
 [TIP]
-TDD seems slow at first, but it **saves time** in the long run. You spend less time debugging mysterious errors because every piece of code has a test from the start!
+**Status Codes to Remember**:
+- `200 OK` — GET request succeeded
+- `201 Created` — POST request created a new resource
+- `400 Bad Request` — Invalid input from client
+- `404 Not Found` — Resource doesn't exist
+- `500 Internal Server Error` — Bug in your code
 [/CALLOUT]
 
-[NOTE]
-**Code Coverage**: 100% coverage (every line of code is run by at least one test) sounds perfect, but it doesn't mean 0 bugs. Coverage measures if the code was RUN, not if it was tested with the RIGHT inputs.
-[/CALLOUT]
+---
+
+## The Testing Pyramid
+
+```
+
+                       ACCEPTANCE TESTS
+                      (Slow, Few, Manual)
+                    Test the entire user flow.
+                           /\
+                          /  \
+                         /    \
+                        / INT. \
+                       / TESTS  \
+                      / Routes & \
+                     / Database   \
+                    / interaction  \
+                   /\              /\
+                  /  \            /  \
+                 /                    \
+                /    UNIT TESTS        \
+               /  (Fast, Many, Auto)   \
+              / Pure logic, functions   \
+             /  Run on every code push  \
+            /____________________________\
+
+```
+
+---
+
+## How `pytest -k` Works
+
+The `-k` flag filters tests by a keyword match against their name.
+
+```bash
+# Run only tests whose name contains "increment"
+pytest -k "increment"
+
+# Run tests whose name contains "increment" OR "decrement"
+pytest -k "increment or decrement"
+
+# Run all tests EXCEPT those containing "slow"
+pytest -k "not slow"
+```
 
 ---
 
@@ -241,12 +391,14 @@ TDD seems slow at first, but it **saves time** in the long run. You spend less t
 
 | Term | Meaning |
 |:---|:---|
-| **Unit Test** | A test for a single, isolated function or class |
-| **Integration Test** | A test for multiple components working together |
-| **Acceptance Test** | A final test by the user/client that the app meets requirements |
-| **pytest** | The most popular Python testing framework |
-| **Fixture** | Code that prepares the environment before each test runs |
-| **Parametrize** | Running the same test with multiple sets of input data |
-| **TDD** | Test-Driven Development — write tests before writing code |
-| **Coverage** | The percentage of code lines executed during testing |
-| **Regression** | A bug in existing code that appears after making a new change |
+| **pytest** | Python testing framework with auto-discovery and clean syntax |
+| **assert** | Python keyword that checks a condition — fails with `AssertionError` if `False` |
+| **Marker** | A decorator (`@pytest.mark.*`) that adds metadata or behavior to a test |
+| **@pytest.mark.skip** | Unconditionally skips a test |
+| **@pytest.mark.skipif** | Skips a test only if a condition is `True` |
+| **@pytest.mark.parametrize** | Runs one test function with multiple sets of inputs |
+| **Custom Marker** | User-defined group tag (e.g., `@pytest.mark.smoke`) for selective test runs |
+| **`pytest -v`** | Verbose mode — shows each test name and its result |
+| **`pytest -k`** | Keyword filter — runs only tests whose name matches a keyword |
+| **Status Code 200** | HTTP response meaning the request succeeded (GET) |
+| **Status Code 201** | HTTP response meaning a new resource was created (POST) |
