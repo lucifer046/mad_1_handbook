@@ -8,6 +8,47 @@ Imagine you built a student portal. It works fine on your laptop. You deploy it.
 
 ---
 
+## Types of Testing: Static vs. Dynamic
+
+Before we dive into tools like Pytest, we must understand *how* we approach testing. Testing isn't just about running scripts; it’s about verifying correctness at different stages.
+
+### 1. Static Testing (Testing the "Paper")
+Static testing is performed **without executing the code**. It involves checking the code, documentation, and design to find errors.
+
+*   **Examples:** Code reviews, walkthroughs, inspections, and using "Linters" (like Flake8) to catch syntax errors.
+*   **Pros:** 
+    *   **Early Detection:** Catches bugs before they ever reach a computer.
+    *   **Cost-Effective:** Fixing a design flaw on paper is 10x cheaper than fixing it in production.
+    *   **Quality Culture:** Encourages developers to write cleaner code.
+*   **Cons:** 
+    *   Cannot detect runtime errors (e.g., "Division by zero" which only happens during execution).
+    *   Cannot verify performance or user experience.
+
+### 2. Dynamic Testing (Testing the "Action")
+Dynamic testing is performed **by executing the code**. You provide inputs and verify if the outputs match expectations.
+
+*   **Examples:** Unit tests (Pytest), Integration tests, and User Acceptance Testing (UAT).
+*   **Pros:** 
+    *   **Runtime Validation:** Catches memory leaks, logic errors, and performance bottlenecks.
+    *   **Functional Accuracy:** Ensures the app actually *works* for the user.
+*   **Cons:** 
+    *   More expensive to set up (requires a test environment).
+    *   May miss bugs if the specific logic path isn't triggered by an input.
+
+---
+
+## Testing Methodologies: The "Box" Approach
+
+How much should the tester know about the code? This determines the "color" of the box.
+
+| Methodology | Definition | Pros | Cons |
+|:--- |:--- |:--- |:--- |
+| **Black Box** | Testing from the **user's perspective**. The tester has zero knowledge of the internal code. | User-centric; Tester doesn't need to be a developer. | Can lead to redundant tests; impossible to test every logic path. |
+| **White Box** | Testing from the **developer's perspective**. The tester has full access to the source code and logic. | High code coverage; identifies hidden bugs in loops/logic. | Requires high technical skill; very time-consuming. |
+| **Grey Box** | A **hybrid approach**. The tester has partial knowledge (e.g., knows the database schema or API endpoints but not the code). | Finds integration issues easily; combined benefits of both. | Coverage is limited compared to pure white box testing. |
+
+---
+
 ## What is Pytest?
 
 **Pytest** is a Python module (testing framework) used to write and run automated tests. It is the most popular testing tool in Python because of three key advantages:
@@ -336,6 +377,9 @@ def test_post_student_response_body():
 - `200 OK` — GET request succeeded
 - `201 Created` — POST request created a new resource
 - `400 Bad Request` — Invalid input from client
+- `401 Unauthorized` — Login required
+- `402 Payment Required` — Digital payment needed
+- `403 Forbidden` — Permission denied
 - `404 Not Found` — Resource doesn't exist
 - `500 Internal Server Error` — Bug in your code
 [/CALLOUT]
@@ -402,3 +446,8 @@ pytest -k "not slow"
 | **`pytest -k`** | Keyword filter — runs only tests whose name matches a keyword |
 | **Status Code 200** | HTTP response meaning the request succeeded (GET) |
 | **Status Code 201** | HTTP response meaning a new resource was created (POST) |
+| **Static Testing** | Testing code/docs without execution (Reviews, Linting) |
+| **Dynamic Testing** | Testing by executing code (Unit tests, Integration) |
+| **Black Box** | Testing from a user perspective with zero code knowledge |
+| **White Box** | Testing from a developer perspective with full code access |
+| **Grey Box** | Hybrid testing with partial knowledge of internals |

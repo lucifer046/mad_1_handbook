@@ -214,6 +214,28 @@ curl -X DELETE http://localhost:5000/api/students/102
 
 ---
 
+## HTTP Status Codes: The Server's Response
+
+Every time you talk to an API, the server sends back a **Status Code** — a 3-digit number that tells you if your request was successful, or why it failed.
+
+### 4xx: Client Errors (It's YOUR fault)
+These codes mean the request sent by the client (browser/app) had an error.
+
+| Code | Name | Meaning |
+|:--- |:--- |:--- |
+| **400** | **Bad Request** | The server didn't understand the request (e.g., malformed JSON or missing fields). |
+| **401** | **Unauthorized** | You are not logged in. Authentication is required to access this resource. |
+| **402** | **Payment Required** | Reserved for future use (intended for digital payment systems). |
+| **403** | **Forbidden** | You are logged in, but you don't have permission to see this (e.g., a student trying to delete another student). |
+| **404** | **Not Found** | The resource you asked for doesn't exist (wrong URL or invalid ID). |
+
+### Common Success & Server Errors
+*   **200 OK**: Everything worked perfectly (GET/PUT/DELETE).
+*   **201 Created**: A new resource was successfully created (POST).
+*   **500 Internal Server Error**: The server crashed (usually a bug in your Python code).
+
+---
+
 ## Glossary
 
 | Term | Meaning |
